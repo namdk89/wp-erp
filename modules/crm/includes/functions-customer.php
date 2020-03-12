@@ -190,17 +190,27 @@ function erp_crm_get_details_url( $id, $type ) {
 function erp_crm_get_life_stages_dropdown_raw( $label = [], $counts = [] ) {
 
     $counts = wp_parse_args( $counts, [
-        'customer'    => 0,
-        'lead'        => 0,
-        'opportunity' => 0,
-        'subscriber'  => 0
+        'l0' => 0,
+        'l1' => 0,
+        'l2' => 0,
+        'l3' => 0,
+        'l4' => 0,
+        'l5' => 0,
+        'l6' => 0,
+        'l7' => 0,
+        'l8' => 0
     ] );
 
     $life_stages = [
-        'customer'    => _n( 'Customer', 'Customers', $counts['customer'], 'erp' ),
-        'lead'        => _n( 'Lead', 'Leads', $counts['lead'], 'erp' ),
-        'opportunity' => _n( 'Opportunity', 'Opportunities',  $counts['opportunity'], 'erp' ),
-        'subscriber'  => _n( 'Subscriber', 'Subscribers', $counts['subscriber'], 'erp' )
+        'L0'    => _n( 'L0', 'L0s', $counts['l0'], 'erp' ),
+        'L1'    => _n( 'L1', 'L1s', $counts['l1'], 'erp' ),
+        'L2'    => _n( 'L2', 'L2s', $counts['l2'], 'erp' ),
+        'L3'    => _n( 'L3', 'L3s', $counts['l3'], 'erp' ),
+        'L4'    => _n( 'L4', 'L4s', $counts['l4'], 'erp' ),
+        'L5'    => _n( 'L5', 'L5s', $counts['l5'], 'erp' ),
+        'L6'    => _n( 'L6', 'L6s', $counts['l6'], 'erp' ),
+        'L7'    => _n( 'L7', 'L7s', $counts['l7'], 'erp' ),
+        'L8'    => _n( 'L8', 'L8s', $counts['l8'], 'erp' )
     ];
 
     $life_stages = apply_filters( 'erp_crm_life_stages', $life_stages );

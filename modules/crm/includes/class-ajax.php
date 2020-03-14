@@ -706,7 +706,7 @@ class Ajax_Handler {
                 if ( in_array( 'company', $user->types ) ) {
                     $found_crm_contact[ $user->id ] = $user->company;
                 } else {
-                    $found_crm_contact[ $user->id ] = $user->first_name . ' ' . $user->last_name;
+                    $found_crm_contact[ $user->id ] = $user->last_name . ' ' . $user->first_name;
                 }
             }
         }

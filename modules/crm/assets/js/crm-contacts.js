@@ -1212,7 +1212,7 @@
                         } else if( !item.first_name && item.last_name ) {
                             var name = item.last_name;
                         } else if ( item.first_name && item.last_name ) {
-                            var name = item.first_name + ' ' + item.last_name;
+                            var name = item.last_name + ' ' + item.first_name;
                         } else {
                             var name = '(' + __('No name', 'erp') +')';
                         }
@@ -1907,7 +1907,7 @@
                                     + '<span class="customer-avatar">{{{ item.contact_details.avatar.img }}}</span>'
                                     + '<span class="customer-name">'
                                         + '<a href="{{ item.contact_details.details_url }}" target="_blank" v-if="isCompany( item.contact_details.types )">{{ item.contact_details.company }}</a>'
-                                        + '<a href="{{ item.contact_details.details_url }}" target="_blank" v-else>{{ item.contact_details.first_name }}&nbsp;{{ item.contact_details.last_name }}</a>'
+                                        + '<a href="{{ item.contact_details.details_url }}" target="_blank" v-else>{{ item.contact_details.last_name }}&nbsp;{{ item.contact_details.first_name }}</a>'
                                     + '</span>'
                                 + '</h3>'
                                 + '<div class="action">'

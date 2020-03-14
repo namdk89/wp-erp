@@ -452,7 +452,7 @@ function erp_acct_get_formatted_expense_data( $data, $voucher_no ) {
 
     $expense_data['voucher_no']      = ! empty( $voucher_no ) ? $voucher_no : 0;
     $expense_data['people_id']       = isset( $data['people_id'] ) ? $data['people_id'] : get_current_user_id();
-    $expense_data['people_name']     = isset( $people ) ? $people->first_name . ' ' . $people->last_name : '';
+    $expense_data['people_name']     = isset( $people ) ? $people->last_name . ' ' . $people->first_name : '';
     $expense_data['billing_address'] = isset( $data['billing_address'] ) ? $data['billing_address'] : '';
     $expense_data['trn_date']        = isset( $data['trn_date'] ) ? $data['trn_date'] : date( 'Y-m-d' );
     $expense_data['amount']          = isset( $data['amount'] ) ? $data['amount'] : 0;
@@ -469,7 +469,7 @@ function erp_acct_get_formatted_expense_data( $data, $voucher_no ) {
     $expense_data['created_by']       = isset( $data['created_by'] ) ? $data['created_by'] : '';
     $expense_data['updated_at']       = isset( $data['updated_at'] ) ? $data['updated_at'] : '';
     $expense_data['updated_by']       = isset( $data['updated_by'] ) ? $data['updated_by'] : '';
-    $expense_data['pay_to']           = isset( $people ) ? $people->first_name . ' ' . $people->last_name : '';
+    $expense_data['pay_to']           = isset( $people ) ? $people->last_name . ' ' . $people->first_name : '';
     $expense_data['name']             = isset( $data['name'] ) ? $data['name'] : $company->name;
     $expense_data['bank']             = isset( $data['bank'] ) ? $data['bank'] : '';
     $expense_data['voucher_type']     = isset( $data['voucher_type'] ) ? $data['voucher_type'] : '';

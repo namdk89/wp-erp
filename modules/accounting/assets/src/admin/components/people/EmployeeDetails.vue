@@ -14,7 +14,7 @@
                     <div class="customer-identity">
                         <img :src="user.avatar_url" :alt=user.name style="border-radius: 100%">
                         <div class="">
-                            <h3>{{user.first_name}}  {{ user.last_name }}</h3>
+                            <h3>{{user.last_name}}  {{ user.first_name }}</h3>
                             <span>{{user.user_email}}</span>
                         </div>
                     </div>

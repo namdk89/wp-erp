@@ -81,7 +81,7 @@ class ERP_ACCT_BG_Process extends \WP_Background_Process {
                 "{$wpdb->prefix}erp_acct_invoices", [
                     'voucher_no'      => $trn_id,
                     'customer_id'     => $trn['user_id'],
-                    'customer_name'   => $people->first_name . ' ' . $people->last_name,
+                    'customer_name'   => $people->last_name . ' ' . $people->first_name,
                     'trn_date'        => $trn['issue_date'],
                     'due_date'        => $trn['due_date'],
                     'billing_address' => $trn['billing_address'],
@@ -120,7 +120,7 @@ class ERP_ACCT_BG_Process extends \WP_Background_Process {
                 "{$wpdb->prefix}erp_acct_invoice_receipts", [
                     'voucher_no'       => $trn_id,
                     'customer_id'      => $trn['user_id'],
-                    'customer_name'    => $people->first_name . ' ' . $people->last_name,
+                    'customer_name'    => $people->last_name . ' ' . $people->first_name,
                     'trn_date'         => $trn['issue_date'],
                     'amount'           => $trn['total'],
                     'particulars'      => $trn['summary'],
@@ -155,7 +155,7 @@ class ERP_ACCT_BG_Process extends \WP_Background_Process {
                 "{$wpdb->prefix}erp_acct_pay_purchase", [
                     'voucher_no'       => $trn_id,
                     'vendor_id'        => $trn['user_id'],
-                    'vendor_name'      => $people->first_name . ' ' . $people->last_name,
+                    'vendor_name'      => $people->last_name . ' ' . $people->first_name,
                     'trn_date'         => $trn['issue_date'],
                     'amount'           => $trn['total'],
                     'particulars'      => $trn['summary'],
@@ -190,7 +190,7 @@ class ERP_ACCT_BG_Process extends \WP_Background_Process {
                 "{$wpdb->prefix}erp_acct_purchase", [
                     'voucher_no'     => $trn_id,
                     'vendor_id'      => $trn['user_id'],
-                    'vendor_name'    => $people->first_name . ' ' . $people->last_name,
+                    'vendor_name'    => $people->last_name . ' ' . $people->first_name,
                     'trn_date'       => $trn['issue_date'],
                     'due_date'       => $trn['due_date'],
                     'ref'            => $trn['ref'],

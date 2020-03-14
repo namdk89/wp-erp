@@ -3576,7 +3576,7 @@ function erp_crm_make_wp_user( $customer_id, $args = [] ) {
         'first_name'   => ( 'company' == $type ) ? $people['company'] : $people['first_name'],
         'last_name'    => ( 'company' == $type ) ? '' : $people['last_name'],
         'user_url'     => $people['website'],
-        'display_name' => ( 'company' == $type ) ? $people['company'] : $people['first_name'] . ' ' . $people['last_name'],
+        'display_name' => ( 'company' == $type ) ? $people['company'] : $people['last_name'] . ' ' . $people['first_name'],
     );
 
     $userdata['user_pass'] = wp_generate_password( 12 );
@@ -3596,7 +3596,7 @@ function erp_crm_make_wp_user( $customer_id, $args = [] ) {
     $people_meta = \WeDevs\ERP\Framework\Models\Peoplemeta::where( 'erp_people_id', $customer_id )->get()->toArray();
     $meta_array  = wp_list_pluck( $people_meta, 'meta_value', 'meta_key' );
 
-    unset( $people['id'], $people['user_id'], $people['website'], $people['email'], $people['created'], $people['types'], $people['first_name'], $people['last_name'], $people['life_stage'], $people['contact_owner'] );
+    unset( $people['id'], $people['user_id'], $people['website'], $people['email'], $people['created'], $people['types'], $people['last_name'], $people['first_name'], $people['life_stage'], $people['contact_owner'] );
     $people_array = array_merge( $people, $meta_array );
 
     if ( $people_array ) {

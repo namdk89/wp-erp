@@ -441,7 +441,7 @@ class Customers_Controller extends \WeDevs\ERP\API\REST_Controller {
 				'sub_component' => __( 'Customer', 'erp' ),
 				'old_value'     => '',
 				'new_value'     => '',
-				'message'       => $data['first_name'] . ' ' . $data['last_name'] . __( ' customer has been created', 'erp' ),
+				'message'       => $data['last_name'] . ' ' . $data['first_name'] . __( ' customer has been created', 'erp' ),
 				'changetype'    => $action,
 				'created_by'    => get_current_user_id(),
 

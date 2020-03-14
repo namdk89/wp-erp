@@ -50,7 +50,7 @@ function erp_crm_dashboard_widget_todays_schedules() {
                     $invite_users = isset( $schedule['extra']['invite_contact'] ) ? $schedule['extra']['invite_contact'] : [];
 
                     if ( in_array( 'contact', $schedule['contact']['types'] ) ) {
-                        $contact_user = $schedule['contact']['first_name'] . ' ' . $schedule['contact']['last_name'];
+                        $contact_user = $schedule['contact']['last_name'] . ' ' . $schedule['contact']['first_name'];
                     } else if( in_array( 'company', $schedule['contact']['types'] ) )  {
                         $contact_user = $schedule['contact']['company'];
                     }
@@ -150,7 +150,7 @@ function erp_crm_dashboard_widget_upcoming_schedules() {
                     <?php
                         $users_text   = '';
                         $invite_users = isset( $schedule['extra']['invite_contact'] ) ? $schedule['extra']['invite_contact'] : [];
-                        $contact_user = $schedule['contact']['first_name'] . ' ' . $schedule['contact']['last_name'];
+                        $contact_user = $schedule['contact']['last_name'] . ' ' . $schedule['contact']['first_name'];
 
                         array_walk( $invite_users, function( &$val ) {
                             $val = get_the_author_meta( 'display_name', $val );

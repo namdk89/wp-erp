@@ -24,7 +24,7 @@
         <# if( _.contains( data.schedule.contact.types , 'company') ) { #>
             <strong>{{ data.schedule.contact.company }}</strong>
         <# } else { #>
-            <strong>{{ data.schedule.contact.first_name }} {{ data.schedule.contact.last_name }}</strong>
+            <strong>{{ data.schedule.contact.last_name }} {{ data.schedule.contact.first_name }}</strong>
         <# } #>
 
         <# if ( 'tasks' === data.schedule.type ) { #>

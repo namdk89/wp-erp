@@ -23694,7 +23694,7 @@ msgid "Birthday greetings email to contacts."
 msgstr ""
 
 #: modules/crm/includes/emails/class-email-birthday-greetings.php:19
-msgid "Birthday Greetings to {first_name} {last_name}"
+msgid "Birthday Greetings to {last_name} {first_name}"
 msgstr ""
 
 #: modules/crm/includes/emails/class-email-birthday-greetings.php:20

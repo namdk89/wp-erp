@@ -16,7 +16,7 @@ class Birthday_Greetings extends Email {
         $this->title          = __( 'Birthday Greetings To Contacts', 'erp' );
         $this->description    = __( 'Birthday greetings email to contacts.', 'erp' );
 
-        $this->subject        = __( 'Birthday Greetings to {first_name} {last_name}', 'erp');
+        $this->subject        = __( 'Birthday Greetings to {last_name} {first_name}', 'erp');
         $this->heading        = __( 'Happy Birthday :)', 'erp');
 
         $this->find = [

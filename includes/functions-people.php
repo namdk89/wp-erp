@@ -109,8 +109,8 @@ function erp_get_peoples( $args = [] ) {
             $words       = explode( ' ', $s );
 
             if ( $type === 'contact' ) {
-                $args['erpadvancefilter'] = 'first_name[]=~' . implode( '&or&first_name[]=~', $words )
-                                            . '&or&last_name[]=~' . implode( '&or&last_name[]=~', $words )
+                $args['erpadvancefilter'] = 'last_name[]=~' . implode( '&or&last_name[]=~', $words )
+                                            . '&or&first_name[]=~' . implode( '&or&first_name[]=~', $words )
                                             . '&or&email[]=~' . implode( '&or&email[]=~', $words );
 
             } elseif ( $type === 'company' ) {
@@ -323,7 +323,7 @@ function erp_get_peoples_array( $args = [] ) {
     $peoples = erp_get_peoples( $args );
 
     foreach ( $peoples as $user ) {
-        $users[ $user->id ] = ( in_array( 'company', $user->types ) ) ? $user->company : $user->first_name . ' ' . $user->last_name;
+        $users[ $user->id ] = ( in_array( 'company', $user->types ) ) ? $user->company : $user->last_name . ' ' . $user->first_name;
     }
 
     return $users;

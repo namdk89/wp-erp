@@ -284,7 +284,7 @@ export default {
                 if (response.data) {
                     for (const i in response.data) {
                         var vendor = response.data[i];
-                        var object = { id: vendor.id, name: vendor.first_name + ' ' + vendor.last_name };
+                        var object = { id: vendor.id, name: vendor.last_name + ' ' + vendor.first_name };
                         this.vendors.push(object);
                     }
                 }

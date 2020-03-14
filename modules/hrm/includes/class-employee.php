@@ -288,7 +288,7 @@ class Employee {
                 'first_name'   => $data['personal']['first_name'],
                 'last_name'    => $data['personal']['last_name'],
                 'user_url'     => isset( $data['personal']['user_url'] ) ? $data['personal']['user_url'] : '',
-                'display_name' => $first_name . ' ' . $middle_name . ' ' . $last_name,
+                'display_name' => $last_name . ' ' . $middle_name . ' ' . $first_name,
                 'user_pass'    => wp_generate_password( 12 ),
                 'role'         => 'employee',
             );
@@ -627,16 +627,16 @@ class Employee {
      */
     public function get_full_name() {
         $name = array();
-        if ( $this->first_name ) {
-            $name[] = $this->first_name;
+        if ( $this->last_name ) {
+            $name[] = $this->last_name;
         }
 
         if ( $this->middle_name ) {
             $name[] = $this->middle_name;
         }
 
-        if ( $this->last_name ) {
-            $name[] = $this->last_name;
+        if ( $this->first_name ) {
+            $name[] = $this->first_name;
         }
 
         return implode( ' ', $name );

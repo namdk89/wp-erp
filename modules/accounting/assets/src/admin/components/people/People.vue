@@ -118,7 +118,7 @@ export default {
         row_data() {
             const items = this.rows;
             items.map(item => {
-                item.customer = item.first_name + ' ' + item.last_name;
+                item.customer = item.last_name + ' ' + item.first_name;
             });
             return items;
         }

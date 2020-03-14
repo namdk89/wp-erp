@@ -664,7 +664,7 @@ function erp_acct_get_formatted_invoice_data( $data, $voucher_no ) {
     // We can pass the name from view... to reduce DB query load
     if ( empty( $data['customer_name'] ) ) {
         $customer      = erp_get_people( $data['customer_id'] );
-        $customer_name = $customer->first_name . ' ' . $customer->last_name;
+        $customer_name = $customer->last_name . ' ' . $customer->first_name;
     } else {
         $customer_name = $data['customer_name'];
     }

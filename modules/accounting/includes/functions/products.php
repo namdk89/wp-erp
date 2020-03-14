@@ -42,7 +42,7 @@ function erp_acct_get_all_products( $args = [] ) {
             product.sale_price,
             product.tax_cat_id,
             people.id AS vendor,
-            CONCAT(people.first_name, ' ',  people.last_name) AS vendor_name,
+            CONCAT(people.last_name, ' ',  people.first_name) AS vendor_name,
             cat.id AS category_id,
             cat.name AS cat_name,
             product_type.name AS product_type_name";
@@ -81,7 +81,7 @@ function erp_acct_get_product( $product_id ) {
 		product.tax_cat_id,
 
 		people.id AS vendor,
-		CONCAT(people.first_name, ' ',  people.last_name) AS vendor_name,
+		CONCAT(people.last_name, ' ',  people.first_name) AS vendor_name,
 
 		cat.id AS category_id,
 		cat.name AS cat_name,
@@ -302,7 +302,7 @@ function erp_acct_get_vendor_products( $args = [] ) {
             product.sale_price,
             product.tax_cat_id,
             product.vendor,
-            CONCAT(people.first_name, ' ',  people.last_name) AS vendor_name,
+            CONCAT(people.last_name, ' ',  people.first_name) AS vendor_name,
             cat.id AS category_id,
             cat.name AS cat_name,
             product_type.name AS product_type_name";

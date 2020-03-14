@@ -367,7 +367,7 @@ function erp_acct_get_formatted_pay_purchase_data( $data, $voucher_no ) {
     $pay_purchase_data['voucher_no']       = ! empty( $voucher_no ) ? $voucher_no : 0;
     $pay_purchase_data['order_no']         = isset( $data['order_no'] ) ? $data['order_no'] : 1;
     $pay_purchase_data['vendor_id']        = isset( $data['vendor_id'] ) ? $data['vendor_id'] : 1;
-    $pay_purchase_data['vendor_name']      = $user_data->first_name . ' ' . $user_data->last_name;
+    $pay_purchase_data['vendor_name']      = $user_data->last_name . ' ' . $user_data->first_name;
     $pay_purchase_data['purchase_details'] = isset( $data['purchase_details'] ) ? $data['purchase_details'] : '';
     $pay_purchase_data['trn_date']         = isset( $data['trn_date'] ) ? $data['trn_date'] : date( 'Y-m-d' );
     $pay_purchase_data['amount']           = isset( $data['amount'] ) ? $data['amount'] : 0;
@@ -379,7 +379,7 @@ function erp_acct_get_formatted_pay_purchase_data( $data, $voucher_no ) {
     $pay_purchase_data['status']           = isset( $data['status'] ) ? $data['status'] : '';
     $pay_purchase_data['trn_by_ledger_id'] = isset( $data['deposit_to'] ) ? $data['deposit_to'] : null;
     $pay_purchase_data['check_no']         = isset( $data['check_no'] ) ? $data['check_no'] : 0;
-    $pay_purchase_data['pay_to']           = isset( $user_data ) ? $user_data->first_name . ' ' . $user_data->last_name : '';
+    $pay_purchase_data['pay_to']           = isset( $user_data ) ? $user_data->last_name . ' ' . $user_data->first_name : '';
     $pay_purchase_data['name']             = isset( $data['name'] ) ? $data['name'] : $company->name;
     $pay_purchase_data['bank']             = isset( $data['bank'] ) ? $data['bank'] : '';
     $pay_purchase_data['voucher_type']     = isset( $data['voucher_type'] ) ? $data['voucher_type'] : '';

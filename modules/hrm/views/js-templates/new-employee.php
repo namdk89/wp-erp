@@ -40,7 +40,7 @@
                             </div>
 
 
-                            <div class="col-3">
+                            <!--div class="col-3">
                                 <?php erp_html_form_input( array(
                                     'label'       => __( 'Middle Name', 'erp' ),
                                     'name'        => 'personal[middle_name]',
@@ -48,7 +48,7 @@
                                     'value'       => '{{ data.name.middle_name }}',
                                     'custom_attr' => array( 'maxlength' => 30 )
                                 ) ); ?>
-                            </div>
+                            </div-->
 
                             <div class="col-3">
                                 <?php erp_html_form_input( array(

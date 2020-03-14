@@ -61,12 +61,12 @@ class People extends Item {
             $user = \get_user_by( 'id', $this->user_id );
 
             if ( ! empty( $user->first_name ) ) {
-                $full_name = $user->first_name . ' ' . $user->last_name;
+                $full_name = $user->last_name . ' ' . $user->first_name;
+            } else {
+                $full_name = $user->display_name;
             }
-
-            $full_name = $user->display_name;
         } else {
-            $full_name = $this->first_name . ' ' . $this->last_name;
+            $full_name = $this->last_name . ' ' . $this->first_name;
         }
 
         return trim( $full_name );

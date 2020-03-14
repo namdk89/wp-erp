@@ -366,7 +366,7 @@ function erp_acct_get_formatted_pay_bill_data( $data, $voucher_no ) {
     $pay_bill_data['voucher_no']  = ! empty( $voucher_no ) ? $voucher_no : 0;
     $pay_bill_data['trn_no']      = ! empty( $voucher_no ) ? $voucher_no : 0;
     $pay_bill_data['vendor_id']   = isset( $data['vendor_id'] ) ? $data['vendor_id'] : null;
-    $pay_bill_data['people_name'] = isset( $user_info ) ? $user_info->first_name . ' ' . $user_info->last_name : '';
+    $pay_bill_data['people_name'] = isset( $user_info ) ? $user_info->last_name . ' ' . $user_info->first_name : '';
     $pay_bill_data['trn_date']    = isset( $data['trn_date'] ) ? $data['trn_date'] : date( 'Y-m-d' );
     $pay_bill_data['amount']      = isset( $data['amount'] ) ? $data['amount'] : 0;
     $pay_bill_data['ref']         = isset( $data['ref'] ) ? $data['ref'] : 0;
@@ -378,7 +378,7 @@ function erp_acct_get_formatted_pay_bill_data( $data, $voucher_no ) {
     $pay_bill_data['status']           = isset( $data['status'] ) ? $data['status'] : 4;
     $pay_bill_data['trn_by_ledger_id'] = isset( $data['deposit_to'] ) ? $data['deposit_to'] : null;
     $pay_bill_data['check_no']         = isset( $data['check_no'] ) ? $data['check_no'] : 0;
-    $pay_bill_data['pay_to']           = isset( $user_info ) ? $user_info->first_name . ' ' . $user_info->last_name : '';
+    $pay_bill_data['pay_to']           = isset( $user_info ) ? $user_info->last_name . ' ' . $user_info->first_name : '';
     $pay_bill_data['name']             = isset( $data['name'] ) ? $data['name'] : $company->name;
     $pay_bill_data['bank']             = isset( $data['bank'] ) ? $data['bank'] : '';
     $pay_bill_data['voucher_type']     = isset( $data['voucher_type'] ) ? $data['voucher_type'] : '';

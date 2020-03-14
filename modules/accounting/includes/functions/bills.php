@@ -460,7 +460,7 @@ function erp_acct_get_formatted_bill_data( $data, $voucher_no ) {
 
     $bill_data['voucher_no']      = ! empty( $voucher_no ) ? $voucher_no : 0;
     $bill_data['vendor_id']       = isset( $data['vendor_id'] ) ? $data['vendor_id'] : 1;
-    $bill_data['vendor_name']     = isset( $vendor ) ? $vendor->first_name . ' ' . $vendor->last_name : '';
+    $bill_data['vendor_name']     = isset( $vendor ) ? $vendor->last_name . ' ' . $vendor->first_name : '';
     $bill_data['billing_address'] = isset( $data['billing_address'] ) ? $data['billing_address'] : '';
     $bill_data['trn_date']        = isset( $data['trn_date'] ) ? $data['trn_date'] : date( 'Y-m-d' );
     $bill_data['due_date']        = isset( $data['due_date'] ) ? $data['due_date'] : date( 'Y-m-d' );

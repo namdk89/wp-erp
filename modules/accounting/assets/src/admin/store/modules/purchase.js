@@ -45,7 +45,7 @@ const mutations = {
         items.forEach(item => {
             state.vendors.push({
                 id: item.id,
-                name: `${item.first_name} ${item.last_name}`
+                name: `${item.last_name} ${item.first_name}`
             });
         });
     }

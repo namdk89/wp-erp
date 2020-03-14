@@ -572,7 +572,7 @@ function erp_acct_get_formatted_purchase_data( $data, $voucher_no ) {
 
     $purchase_data['voucher_no']      = isset( $data['voucher_no'] ) ? $data['voucher_no'] : $voucher_no;
     $purchase_data['vendor_id']       = isset( $data['vendor_id'] ) ? $data['vendor_id'] : 0;
-    $purchase_data['vendor_name']     = $user_info->first_name . ' ' . $user_info->last_name;
+    $purchase_data['vendor_name']     = $user_info->last_name . ' ' . $user_info->first_name;
     $purchase_data['billing_address'] = isset( $data['billing_address'] ) ? $data['billing_address'] : '';
     $purchase_data['trn_date']        = isset( $data['trn_date'] ) ? $data['trn_date'] : date( 'Y-m-d' );
     $purchase_data['due_date']        = isset( $data['due_date'] ) ? $data['due_date'] : date( 'Y-m-d' );

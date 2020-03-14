@@ -46,7 +46,7 @@ class New_Contact_Assigned extends Email {
             return;
         }
         $last_name = isset( $contact->last_name ) ? $contact->last_name : '';
-        $contact_full_name = $contact->first_name . ' ' . $last_name;
+        $contact_full_name = $contact->last_name . ' ' . $first_name;
         $this->heading = $this->get_option( 'heading', $this->heading );
         $this->subject = $this->get_option( 'subject', $this->subject );
 

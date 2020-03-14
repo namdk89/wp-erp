@@ -268,7 +268,7 @@ window.wpErpVue = window.wpErpVue || {};
             },
 
             createdForUser: function() {
-                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.first_name + ' ' + this.feed.contact.last_name;
+                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.last_name + ' ' + this.feed.contact.first_name;
             },
         }
     });
@@ -323,7 +323,7 @@ window.wpErpVue = window.wpErpVue || {};
             },
 
             createdForUser: function() {
-                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.first_name + ' ' + this.feed.contact.last_name;
+                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.last_name + ' ' + this.feed.contact.first_name;
             },
 
             isRepliedEmail: function() {
@@ -407,7 +407,7 @@ window.wpErpVue = window.wpErpVue || {};
             },
 
             createdForUser: function() {
-                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.first_name + ' ' + this.feed.contact.last_name;
+                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.last_name + ' ' + this.feed.contact.first_name;
             },
 
             logType: function() {
@@ -516,7 +516,7 @@ window.wpErpVue = window.wpErpVue || {};
             },
 
             createdForUser: function() {
-                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.first_name + ' ' + this.feed.contact.last_name;
+                return _.contains( this.feed.contact.types, 'company' ) ? this.feed.contact.company : this.feed.contact.last_name + ' ' + this.feed.contact.first_name;
             },
 
             datetime: function() {

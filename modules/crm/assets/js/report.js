@@ -3,10 +3,15 @@
 var labels;
 var months = moment.months();
 var data = [
-    { 'subscriber' : [] },
-    { 'opportunity': [] },
-    { 'lead'       : [] },
-    { 'customer'   : [] }
+    { 'l0': [] },
+    { 'l1': [] },
+    { 'l2': [] },
+    { 'l3': [] },
+    { 'l4': [] },
+    { 'l5': [] },
+    { 'l6': [] },
+    { 'l7': [] },
+    { 'l8': [] }
 ];
 
 if ( 'this_year' == growthReport.type ) {
@@ -25,10 +30,15 @@ for ( var i = 0; i < labels.length; i++) {
     var tempData = growthReport.reports[ labels[i] ];
 
     if ( tempData ) {
-        data[0].subscriber.push( tempData.subscriber ),
-        data[1].opportunity.push( tempData.opportunity ),
-        data[2].lead.push( tempData.lead ),
-        data[3].customer.push( tempData.customer )
+        data[0].l0.push( tempData.l0 ),
+        data[1].l1.push( tempData.l1 ),
+        data[2].l2.push( tempData.l2 ),
+        data[3].l3.push( tempData.l3 ),
+        data[4].l4.push( tempData.l4 ),
+        data[5].l5.push( tempData.l5 ),
+        data[6].l6.push( tempData.l6 ),
+        data[7].l7.push( tempData.l7 ),
+        data[8].l8.push( tempData.l8 )
     }
 }
 
@@ -42,28 +52,58 @@ var chart = new Chart(ctx, {
         labels: labels,
         datasets: [
             {
-                label: __('Subscriber', 'erp'),
+                label: __('L0', 'erp'),
                 backgroundColor: 'rgba(244,67,54, .5)',
                 borderColor: 'rgba(244,67,54, .5)',
-                data: data[0].subscriber
+                data: data[0].l0
             },
             {
-                label: __('Opportunity', 'erp'),
+                label: __('L1', 'erp'),
+                backgroundColor: 'rgba(244,67,54, .5)',
+                borderColor: 'rgba(244,67,54, .5)',
+                data: data[1].l1
+            },
+            {
+                label: __('L2', 'erp'),
                 backgroundColor: 'rgba(103,58, 183, .5)',
                 borderColor: 'rgba(103,58, 183, .5)',
-                data: data[1].opportunity
+                data: data[2].l2
             },
             {
-                label: __('Lead', 'erp'),
+                label: __('L3', 'erp'),
+                backgroundColor: 'rgba(103,58, 183, .5)',
+                borderColor: 'rgba(103,58, 183, .5)',
+                data: data[3].l3
+            },
+            {
+                label: __('L4', 'erp'),
                 backgroundColor: 'rgba(3,169,244, .5)',
                 borderColor: 'rgba(3,169,244, .5)',
-                data: data[2].lead
+                data: data[4].l4
             },
             {
-                label: __('Customer', 'erp'),
+                label: __('L5', 'erp'),
+                backgroundColor: 'rgba(3,169,244, .5)',
+                borderColor: 'rgba(3,169,244, .5)',
+                data: data[5].l5
+            },
+            {
+                label: __('L6', 'erp'),
                 backgroundColor: 'rgba(255,193,7, .5)',
                 borderColor: 'rgba(255,193,7, .5)',
-                data: data[3].customer
+                data: data[6].l6
+            },
+            {
+                label: __('L7', 'erp'),
+                backgroundColor: 'rgba(255,193,7, .5)',
+                borderColor: 'rgba(255,193,7, .5)',
+                data: data[7].l7
+            },
+            {
+                label: __('L8', 'erp'),
+                backgroundColor: 'rgba(255,193,7, .5)',
+                borderColor: 'rgba(255,193,7, .5)',
+                data: data[8].l8
             }
         ]
     },

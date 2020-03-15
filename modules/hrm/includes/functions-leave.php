@@ -1893,7 +1893,7 @@ function import_holidays_csv( $file ) {
     require_once WPERP_INCLUDES . '/lib/parsecsv.lib.php';
 
     $csv = new ParseCsv();
-    $csv->encoding( null, 'UTF-8' );
+    $csv->encoding( 'UTF-8', 'UTF-8' );
     $csv->parse( $file );
 
     $error_list   = array();

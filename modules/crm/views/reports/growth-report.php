@@ -25,10 +25,15 @@ $reports      = erp_crm_growth_reporting_query( $start, $end, $filter_type );
         <thead>
             <tr>
                 <th><?php esc_attr_e( 'Label', 'erp' ); ?></th>
-                <th><?php esc_attr_e( 'Subscriber', 'erp' ); ?></th>
-                <th><?php esc_attr_e( 'Opportunity', 'erp' ); ?></th>
-                <th><?php esc_attr_e( 'Lead', 'erp' ); ?></th>
-                <th><?php esc_attr_e( 'Customer', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L0', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L1', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L2', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L3', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L4', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L5', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L6', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L7', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'L8', 'erp' ); ?></th>
             </tr>
         </thead>
 
@@ -37,10 +42,15 @@ $reports      = erp_crm_growth_reporting_query( $start, $end, $filter_type );
 
                 <tr>
                     <td><?php echo esc_html( $key ) ?></td>
-                    <td><?php echo !empty( $report['subscriber'] )  ? esc_attr( $report['subscriber'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['opportunity'] ) ? esc_attr( $report['opportunity'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['lead'] )        ? esc_attr( $report['lead'] )      : 0; ?></td>
-                    <td><?php echo !empty( $report['customer'] )    ? esc_attr( $report['customer'] )   : 0; ?></td>
+                    <td><?php echo !empty( $report['l0'] ) ? esc_attr( $report['l0'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l1'] ) ? esc_attr( $report['l1'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l2'] ) ? esc_attr( $report['l2'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l3'] ) ? esc_attr( $report['l3'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l4'] ) ? esc_attr( $report['l4'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l5'] ) ? esc_attr( $report['l5'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l6'] ) ? esc_attr( $report['l6'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l7'] ) ? esc_attr( $report['l7'] ) : 0; ?></td>
+                    <td><?php echo !empty( $report['l8'] ) ? esc_attr( $report['l8'] ) : 0; ?></td>
                 </tr>
 
             <?php endforeach; ?>

@@ -202,15 +202,15 @@ function erp_crm_get_life_stages_dropdown_raw( $label = [], $counts = [] ) {
     ] );
 
     $life_stages = [
-        'L0'    => _n( 'L0', 'L0s', $counts['l0'], 'erp' ),
-        'L1'    => _n( 'L1', 'L1s', $counts['l1'], 'erp' ),
-        'L2'    => _n( 'L2', 'L2s', $counts['l2'], 'erp' ),
-        'L3'    => _n( 'L3', 'L3s', $counts['l3'], 'erp' ),
-        'L4'    => _n( 'L4', 'L4s', $counts['l4'], 'erp' ),
-        'L5'    => _n( 'L5', 'L5s', $counts['l5'], 'erp' ),
-        'L6'    => _n( 'L6', 'L6s', $counts['l6'], 'erp' ),
-        'L7'    => _n( 'L7', 'L7s', $counts['l7'], 'erp' ),
-        'L8'    => _n( 'L8', 'L8s', $counts['l8'], 'erp' )
+        'l0'    => _n( 'L0', 'L0', $counts['l0'], 'erp' ),
+        'l1'    => _n( 'L1', 'L1', $counts['l1'], 'erp' ),
+        'l2'    => _n( 'L2', 'L2', $counts['l2'], 'erp' ),
+        'l3'    => _n( 'L3', 'L3', $counts['l3'], 'erp' ),
+        'l4'    => _n( 'L4', 'L4', $counts['l4'], 'erp' ),
+        'l5'    => _n( 'L5', 'L5', $counts['l5'], 'erp' ),
+        'l6'    => _n( 'L6', 'L6', $counts['l6'], 'erp' ),
+        'l7'    => _n( 'L7', 'L7', $counts['l7'], 'erp' ),
+        'l8'    => _n( 'L8', 'L8', $counts['l8'], 'erp' )
     ];
 
     $life_stages = apply_filters( 'erp_crm_life_stages', $life_stages );
@@ -3295,7 +3295,7 @@ function erp_create_contact_from_created_user( $user_id ) {
 
     $contact_owner = erp_get_option( 'contact_owner', 'erp_settings_erp-crm_contacts', null );
     $contact_owner = ( $contact_owner ) ? $contact_owner : get_current_user_id();
-    $life_stage    = erp_get_option( 'life_stage', 'erp_settings_erp-crm_contacts', 'opportunity' );
+    $life_stage    = erp_get_option( 'life_stage', 'erp_settings_erp-crm_contacts', 'L1' );
 
     $data = [];
 

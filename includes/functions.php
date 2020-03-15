@@ -1688,7 +1688,7 @@ function erp_process_import_export() {
         require_once WPERP_INCLUDES . '/lib/parsecsv.lib.php';
 
         $csv = new ParseCsv();
-        $csv->encoding( null, 'UTF-8' );
+        $csv->encoding( 'UTF-8', 'UTF-8' );
         $csv->parse( $csv_file['tmp_name'] );
 
         if ( empty( $csv->data ) ) {

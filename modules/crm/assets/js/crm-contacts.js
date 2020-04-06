@@ -316,6 +316,12 @@
                 id : 'assign_group',
                 text : __('Assign Group', 'erp'),
                 showIf : 'whenNotTrased'
+            },
+
+            {
+                id : 'assign_user',
+                text : __('Assign User', 'erp'),
+                showIf : 'whenNotTrased'
             }
         ];
 
@@ -1558,6 +1564,44 @@
                     }
                 },
 
+                assignContactUser: function( ids, type ) {
+                    var self = this;
+
+                    if ( ids.length > 0 ) {
+                        $.erpPopup({
+                            title: wpErpCrm.popup.customer_assign_user,
+                            button: wpErpCrm.apply_submit,
+                            id: 'erp-crm-customer-bulk-assign-user',
+                            content: wperp.template('erp-crm-assign-bulk-contact-user')({ user_id:ids }).trim(),
+                            extraClass: 'smaller',
+
+                            onSubmit: function(modal) {
+                                modal.disableButton();
+
+                                wp.ajax.send( {
+                                    data: this.serialize(),
+                                    success: function( res ) {
+                                        modal.enableButton();
+                                        modal.closeModal();
+                                        self.$broadcast('vtable:refresh');
+                                    },
+                                    error: function(error) {
+                                        modal.enableButton();
+                                        modal.showError( error );
+                                        self.$refs.vtable.ajaxloader = false;
+                                    }
+                                });
+                            }
+                        }); //popup
+                        $( '.erp-select2' ).select2({
+                            placeholder: $(this).attr('data-placeholder')
+                        });
+                    } else {
+                        alert( wpErpCrm.checkedConfirm );
+                        self.$refs.vtable.ajaxloader = false;
+                    }
+                },
+
                 checkEmailForContact: function(e) {
 
                     var instance = this,
@@ -1844,6 +1888,10 @@
 
                     if ( 'assign_group' === action ) {
                         this.assignContact( ids, wpErpCrm.contact_type );
+                    }
+
+                    if ( 'assign_user' === action ) {
+                        this.assignContactUser( ids, wpErpCrm.contact_type );
                     }
                 },
 

@@ -182,6 +182,7 @@ class Customer_Relationship {
                 'customer_update_title'  => __( 'Edit Customer', 'erp' ),
                 'customer_social_title'  => __( 'Customer Social Profile', 'erp' ),
                 'customer_assign_group'  => __( 'Add to Contact groups', 'erp' ),
+                'customer_assign_user'   => __( 'Assign to User', 'erp' ),
             ),
             'asset_url'                   => WPERP_ASSETS,
             'add_submit'                  => __( 'Add New', 'erp' ),
@@ -349,6 +350,7 @@ class Customer_Relationship {
                 erp_get_js_template( WPERP_CRM_JS_TMPL . '/new-customer.php', 'erp-crm-new-contact' );
                 erp_get_js_template( WPERP_CRM_JS_TMPL . '/make-wp-user.php', 'erp-make-wp-user' );
                 erp_get_js_template( WPERP_CRM_JS_TMPL . '/new-bulk-contact-group.php', 'erp-crm-new-bulk-contact-group' );
+                erp_get_js_template( WPERP_CRM_JS_TMPL . '/assign-bulk-contact-user.php', 'erp-crm-assign-bulk-contact-user' );
                 erp_get_vue_component_template( WPERP_CRM_JS_TMPL . '/save-search-fields.php', 'erp-crm-save-search-item' );
 
                 if ( isset( $_GET['action'] ) && $_GET['action'] == 'view' ) {

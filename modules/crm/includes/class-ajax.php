@@ -31,6 +31,7 @@ class Ajax_Handler {
         $this->action( 'wp_ajax_erp-crm-customer-delete', 'customer_remove' );
         $this->action( 'wp_ajax_erp-crm-customer-restore', 'customer_restore' );
         $this->action( 'wp_ajax_erp-crm-bulk-contact-subscriber', 'bulk_assign_group' );
+        $this->action( 'wp_ajax_erp-crm-bulk-contact-user', 'bulk_assign_user' );
         $this->action( 'wp_ajax_erp-crm-convert-user-to-contact', 'convert_user_to_customer' );
         $this->action( 'wp_ajax_erp-crm-get-contacts', 'get_all_contact' );
         $this->action( 'wp_ajax_erp-crm-get-contact-companies', 'get_contact_companies' );
@@ -497,6 +498,52 @@ class Ajax_Handler {
         }
 
         $this->send_success( __( 'Selected contact are successfully subscribed', 'erp' ) );
+
+    }
+
+    /**
+     * Contact bulk assign to crm user
+     *
+     * @since 1.0
+     *
+     * @return json
+     */
+    public function bulk_assign_user() {
+        if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'wp-erp-crm-bulk-contact-user' ) ) {
+            $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
+        }
+
+        $ids                = [];
+        $contact_subscriber = [];
+        $user_ids           = ( isset( $_POST['user_id'] ) && ! empty( $_POST['user_id'] ) ) ? explode(',', sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) ) : [];
+        $assign_user_id     = ( isset( $_POST['assign_user_id'] ) && ! empty( $_POST['assign_user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['assign_user_id'] ) ) : [];
+
+        if ( empty( $user_ids ) ) {
+            $this->send_error( __( 'Contact must be required', 'erp' ) );
+        }
+
+        if ( ! $assign_user_id ) {
+            $this->send_error( __( 'You have to select crm user to assign', 'erp' ) );
+        }
+
+        // Check permission for trashing and permanent deleting contact;
+        foreach ( $user_ids as $contact_id ) {
+            if ( ! current_user_can( 'erp_crm_edit_contact', $contact_id ) ) {
+                continue;
+            }
+            $ids[] = $contact_id;
+        }
+
+        if ( empty( $ids ) ) {
+            $this->send_error( __( 'Can not assign crm user - You do not own this contact(s)', 'erp' ) );
+        }
+
+        foreach ( $ids as $user_key => $user_id ) {
+            $contact = new \WeDevs\ERP\CRM\Contact( $user_id );
+            $contact->update_contact_owner( $assign_user_id );
+        }
+
+        $this->send_success( __( 'Selected contact are successfully assigned', 'erp' ) );
 
     }
 

@@ -99,7 +99,9 @@
                                 <?php erp_html_form_input( array(
                                     'label' => __( 'Phone Number', 'erp' ),
                                     'name'  => 'contact[main][phone]',
-                                    'value' => '{{ data.phone }}'
+                                    'value' => '{{ data.phone }}',
+                                    'id'    => 'erp-crm-new-contact-phone',
+                                    'required' => true
                                 ) ); ?>
                             </div>
 

@@ -198,15 +198,23 @@ class Ajax {
      */
     public function check_people() {
         $email = isset( $_REQUEST['email'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['email'] ) ) : false;
-
-        if ( ! $email ) {
-            $this->send_error( esc_html__( 'No email address provided', 'erp' ) );
+        $phone = isset( $_REQUEST['phone'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['phone'] ) ) : false;
+        $field = '';
+        $value = '';
+        if ( $email ) {
+            $field = 'email';
+            $value = $email;
+        } else if ( $phone ) {
+            $field = 'phone';
+            $value = $phone;
+        } else {
+            $this->send_error( esc_html__( 'Neither email address nor phone provided', 'erp' ) );
         }
 
-        $user = \get_user_by( 'email', $email );
+        $user = \get_user_by( $field, $value );
 
         if ( false === $user ) {
-            $people = erp_get_people_by( 'email', $email );
+            $people = erp_get_people_by( $field, $value );
         } else {
             $peep = \WeDevs\ERP\Framework\Models\People::with('types')->whereUserId( $user->ID )->first();
 
@@ -219,7 +227,7 @@ class Ajax {
             }
         }
 
-        // we didn't found any user with this email address
+        // we didn't found any user with this value
         if ( !$people ) {
             $this->send_error();
         }

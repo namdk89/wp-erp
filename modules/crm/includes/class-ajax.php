@@ -306,6 +306,23 @@ class Ajax_Handler {
             $this->send_error( __( 'You don\'t have any permission to edit this contact', 'erp' ) );
         }
 
+        if (!filter_var($posted['contact']['main']['email'], FILTER_VALIDATE_EMAIL)) {
+            $this->send_error( __( 'Invalid email format', 'erp' ) );
+        }
+
+        $posted['contact']['main']['phone'] = preg_replace('~\D~', '', $posted['contact']['main']['phone']);
+        if (!preg_match_all("/((09|03|07|08|05)+([0-9]{8})\b)/", $posted['contact']['main']['phone'])) {
+            $this->send_error( __( 'Invalid phone format', 'erp' ) );
+        }
+
+        $people = erp_get_people_by( 'email', $posted['contact']['main']['email'] );
+        if ($people && $people->id != $data['id'])
+            $this->send_error( __( 'Email exist', 'erp' ) );
+
+        $people = erp_get_people_by( 'phone', $posted['contact']['main']['phone'] );
+        if ($people && $people->id != $data['id'])
+            $this->send_error( __( 'Phone exist', 'erp' ) );
+
         $customer_id = erp_insert_people( $data );
 
         if ( is_wp_error( $customer_id ) ) {

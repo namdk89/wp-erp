@@ -1602,18 +1602,23 @@
                     }
                 },
 
-                checkEmailForContact: function(e) {
-
+                checkEmailPhoneForContact: function(e) {
+                    debugger;
                     var instance = this,
                         self = $(e.target),
                         form = self.closest('form'),
-                        val = self.val(),
                         type = form.find('#erp-customer-type').val(),
-                        id   = form.find('#erp-customer-id').val();
+                        id   = form.find('#erp-customer-id').val(),
+                        phone = form.find('#erp-crm-new-contact-phone').val().replace(/\D/g,''),
+                        email = form.find('#erp-crm-new-contact-email').val();
 
                     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    if ( email == '' || !re.test( email ) ) {
+                        return false;
+                    }
 
-                    if ( val == '' || !re.test( val ) ) {
+                    re = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                    if ( phone == '' || !re.test( phone ) ) {
                         return false;
                     }
 
@@ -1623,7 +1628,8 @@
 
                     wp.ajax.send( 'erp_people_exists', {
                         data: {
-                            email: val,
+                            email: email,
+                            phone: phone,
                             _wpnonce: wpErpCrm.nonce
                         },
                         success: function( response ) {
@@ -1829,7 +1835,8 @@
                 var self = this;
                 $( 'body' ).on( 'click', 'a#erp-set-customer-photo', this.setPhoto );
                 $( 'body' ).on( 'click', 'a.erp-remove-photo', this.removePhoto );
-                $( 'body' ).on( 'focusout', 'input#erp-crm-new-contact-email', this.checkEmailForContact );
+                $( 'body' ).on( 'focusout', 'input#erp-crm-new-contact-email', this.checkEmailPhoneForContact );
+                $( 'body' ).on( 'focusout', 'input#erp-crm-new-contact-phone', this.checkEmailPhoneForContact );
                 $( 'body' ).on( 'click', 'a#erp-crm-create-contact-other-type', this.makeUserAsContact );
                 this.initSearchCrmAgent();
                 this.initSearchCrmCompany();

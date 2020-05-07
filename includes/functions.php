@@ -3030,6 +3030,25 @@ function erp_is_contacts_page() {
 }
 
 /**
+ * Check if the current page is course or company listing
+ *
+ * @since 1.4.0
+ *
+ * @return bool
+ */
+function erp_is_courses_page() {
+    if ( empty( $_GET['page'] ) || $_GET['page'] != 'erp-tlm' ) {
+        return false;
+    }
+
+    if ( empty( $_GET['section'] ) || $_GET['section'] != 'courses' || $_GET['section'] != 'companies' ) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Check if the current page is valid for given args
  *
  * @since 1.4.1

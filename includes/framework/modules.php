@@ -48,6 +48,13 @@ class Modules {
                 'callback'    => '\WeDevs\ERP\CRM\Customer_Relationship',
                 'modules'     => apply_filters( 'erp_crm_modules', [ ] )
             ],
+            'tlm' => [
+                'title'       => __( 'TL Management', 'erp' ),
+                'slug'        => 'erp-tlm',
+                'description' => __( 'Teacher Learning Management', 'erp' ),
+                'callback'    => '\WeDevs\ERP\TLM\Customer_Relationship',
+                'modules'     => apply_filters( 'erp_tlm_modules', [ ] )
+            ],
             'accounting' => [
                 'title'       => __( 'Accounting', 'erp' ),
                 'slug'        => 'erp-accounting',

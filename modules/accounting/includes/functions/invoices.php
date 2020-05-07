@@ -19,15 +19,20 @@ function erp_acct_get_all_invoices( $args = [] ) {
         'order'   => 'DESC',
         'count'   => false,
         's'       => '',
+        'status'  => '',
     ];
 
     $args = wp_parse_args( $args, $defaults );
 
-    $where = '';
+    $where = 'WHERE 1=1';
     $limit = '';
 
     if ( ! empty( $args['start_date'] ) ) {
-        $where .= "WHERE invoice.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}'";
+        $where .= " AND invoice.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}'";
+    }
+
+    if ( ! empty( $args['status'] ) ) {
+        $where .= " AND invoice.status={$args['status']} ";
     }
 
     if ( '-1' === $args['number'] ) {

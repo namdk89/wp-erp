@@ -257,13 +257,18 @@ class Admin {
                 $hide[] = true;
             }
 
+            if ( ! current_user_can( 'erp_tlm_manager' ) && ! current_user_can( 'erp_tlm_agent' ) && ! current_user_can( 'erp_tlm_teacher' ) ) {
+                unset( $header['tlm'] );
+                $hide[] = true;
+            }
+
             if ( ! current_user_can( 'erp_ac_manager' ) ) {
                 unset( $header['accounting'] );
                 $hide[] = true;
             }
         }
 
-        if ( count( $hide ) === 3 ) {
+        if ( count( $hide ) === 4 ) {
             return;
         }
 

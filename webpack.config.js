@@ -21,6 +21,8 @@ var moduleEntryPoints = {
 
     crm: {},
 
+    tlm: {},
+
     accounting: {
         frontend: 'assets/src/frontend/main.js',
         admin: 'assets/src/admin/main.js',

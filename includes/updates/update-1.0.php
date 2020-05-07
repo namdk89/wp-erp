@@ -12,6 +12,9 @@ function wperp_update_1_0_set_role() {
     remove_role( 'employee' );
     remove_role( 'erp_crm_manager' );
     remove_role( 'erp_crm_agent' );
+    remove_role( 'erp_tlm_manager' );
+    remove_role( 'erp_tlm_agent' );
+    remove_role( 'erp_tlm_teacher' );
 
     $installer = new \WeDevs_ERP_Installer();
     $installer->create_roles();

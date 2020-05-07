@@ -2058,6 +2058,9 @@ class Employee {
             if ( function_exists( 'erp_crm_get_roles' ) ) {
                 $roles = array_merge( $roles, erp_crm_get_roles() );
             }
+            if ( function_exists( 'erp_tlm_get_roles' ) ) {
+                $roles = array_merge( $roles, erp_tlm_get_roles() );
+            }
             if ( function_exists( 'erp_ac_get_roles' ) ) {
                 $roles = array_merge( $roles, erp_ac_get_roles() );
             }

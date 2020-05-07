@@ -88,6 +88,7 @@ class WeDevs_ERP_Installer {
     function includes() {
         include_once WPERP_MODULES . '/hrm/includes/functions-capabilities.php';
         include_once WPERP_MODULES . '/crm/includes/functions-capabilities.php';
+        include_once WPERP_MODULES . '/tlm/includes/functions-capabilities.php';
         include_once WPERP_MODULES . '/accounting/includes/functions/capabilities.php';
     }
 
@@ -248,6 +249,9 @@ May you enjoy the fruits of your labors for years to come'
 
         remove_role( 'erp_crm_manager' );
         remove_role( 'erp_crm_agent' );
+        remove_role( 'erp_tlm_manager' );
+        remove_role( 'erp_tlm_agent' );
+        remove_role( 'erp_tlm_teacher' );
     }
 
     /**
@@ -715,6 +719,76 @@ May you enjoy the fruits of your labors for years to come'
               `subject` text,
               `template` longtext,
               PRIMARY KEY (`id`)
+            ) $charset_collate;",
+
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_tlm_courses` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `invoice_id` int(11) DEFAULT NULL,
+                `product_id` int(11) DEFAULT NULL,
+                `life_stage` VARCHAR(100) DEFAULT NULL,
+                `course_length` int(5) DEFAULT NULL,
+                `teacher_id` int(11) DEFAULT NULL,
+                `owner_id` int(11) DEFAULT NULL,
+                `start_date` date DEFAULT NULL,
+                `force_end_date` date DEFAULT NULL,
+                `learning_schedule` VARCHAR(255) DEFAULT NULL,
+                `estimate_end_date` date DEFAULT NULL,
+                
+                `discount_type` varchar(255) DEFAULT NULL,
+                `tax` decimal(15,2) DEFAULT 0,
+                `estimate` boolean DEFAULT NULL,
+                `attachments` varchar(255) DEFAULT NULL,
+                `status` int(11) DEFAULT NULL,
+                `particulars` varchar(255) DEFAULT NULL,
+                `created_at` date DEFAULT NULL,
+                `created_by` varchar(50) DEFAULT NULL,
+                `updated_at` date DEFAULT NULL,
+                `updated_by` varchar(50) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            ) $charset_collate;",
+
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_tlm_course_activities` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `user_id` int(11) DEFAULT NULL,
+                `type` varchar(255) DEFAULT NULL,
+                `message` longtext,
+                `email_subject` text,
+                `log_type` varchar(255) DEFAULT NULL,
+                `start_date` datetime DEFAULT NULL,
+                `end_date` datetime DEFAULT NULL,
+                `created_by` int(11) DEFAULT NULL,
+                `extra` longtext,
+                `sent_notification` tinyint(4) DEFAULT '0',
+                `created_at` datetime DEFAULT NULL,
+                `updated_at` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`),
+                KEY `type` (`type`),
+                KEY `log_type` (`log_type`),
+                KEY `created_by` (`created_by`)
+            ) $charset_collate;",
+
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_tlm_course_group` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `name` varchar(255) DEFAULT NULL,
+                `group_owner` bigint(20) DEFAULT NULL,
+                `description` text,
+                `private` TINYINT(1) DEFAULT NULL,
+                `created_at` datetime DEFAULT NULL,
+                `updated_at` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            ) $charset_collate;",
+
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_tlm_save_search` (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `user_id` int(11) DEFAULT NULL,
+            `type` VARCHAR(255) DEFAULT NULL,
+            `global` tinyint(4) DEFAULT '0',
+            `search_name` text,
+            `search_val` text,
+            `created_at` datetime DEFAULT NULL,
+            `updated_at` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`)
             ) $charset_collate;",
 
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_acct_voucher_no` (
@@ -1834,6 +1908,14 @@ May you enjoy the fruits of your labors for years to come'
                 'modules'     => apply_filters( 'erp_crm_modules', [] )
             ],
 
+            'tlm' => [
+                'title'       => __( 'TL Management', 'erp' ),
+                'slug'        => 'erp-tlm',
+                'description' => __( 'Teacher Learning Management', 'erp' ),
+                'callback'    => '\WeDevs\ERP\TLM\Customer_Relationship',
+                'modules'     => apply_filters( 'erp_tlm_modules', [] )
+            ],
+
             'accounting' => [
                 'title'       => __( 'Accounting Management', 'erp' ),
                 'slug'        => 'erp-accounting',
@@ -1872,6 +1954,14 @@ May you enjoy the fruits of your labors for years to come'
             }
         }
 
+        $roles_tlm = erp_tlm_get_roles();
+
+        if ( $roles_tlm ) {
+            foreach ( $roles_tlm as $key => $role ) {
+                add_role( $key, $role['name'], $role['capabilities'] );
+            }
+        }
+
         $roles_ac = erp_ac_get_roles();
 
         if ( $roles_ac ) {
@@ -1897,6 +1987,7 @@ May you enjoy the fruits of your labors for years to come'
             foreach ( $admins as $user ) {
                 $user->add_role( erp_hr_get_manager_role() );
                 $user->add_role( erp_crm_get_manager_role() );
+                $user->add_role( erp_tlm_get_manager_role() );
                 $user->add_role( erp_ac_get_manager_role() );
             }
         }

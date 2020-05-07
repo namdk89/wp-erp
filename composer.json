@@ -41,11 +41,13 @@
             "WeDevs\\ERP\\": "includes/",
             "WeDevs\\ERP\\HRM\\": "modules/hrm/includes",
             "WeDevs\\ERP\\CRM\\": "modules/crm/includes",
+            "WeDevs\\ERP\\TLM\\": "modules/tlm/includes",
             "WeDevs\\ERP\\Accounting\\": "modules/accounting/includes"
         },
         "classmap": [
             "modules/hrm/hrm.php",
             "modules/crm/crm.php",
+            "modules/tlm/tlm.php",
             "modules/accounting/accounting.php"
         ]
     }

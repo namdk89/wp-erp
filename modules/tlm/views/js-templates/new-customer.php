@@ -140,7 +140,7 @@
                     </div>
                     <div class="row">
                         <div class="col-3" style="overflow: hidden; white-space: nowrap; justify-content: space-between; display: flex;">
-                            <select style="-moz-appearance: none; -webkit-appearance: none; border: none">
+                            <select style="-moz-appearance: none; -webkit-appearance: none; border: none; background: #fff; width: 40%">
                                 <option>Mon</option>
                                 <option>Tue</option>
                                 <option>Wed</option>
@@ -149,9 +149,10 @@
                                 <option>Sat</option>
                                 <option>Sun</option>
                             </select>
-                            <input style="width: 40%; border: none; box-shadow: none;" type="text" placeholder="07.00" size="10" autocomplete="off">
-                                <span style="padding-top: 6px">:</span>
-                                <input style="width: 40%; border: none; box-shadow: none;" type="text" placeholder="08.00" size="10" autocomplete="off">
+                            <input style="width: 30%; border: none; box-shadow: none; text-align: center" type="text" placeholder="07.00" size="10" autocomplete="off">
+                            <span style="padding-top: 6px">to</span>
+                            <input style="width: 30%; border: none; box-shadow: none; text-align: center" type="text" placeholder="08.00" size="10" autocomplete="off">
+                            <span style="padding: 6px">&times;</span>
                         </div>
                     </div>
                 </fieldset>

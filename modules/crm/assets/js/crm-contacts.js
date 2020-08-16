@@ -1331,6 +1331,7 @@
                         extraClass: 'midium',
                         onReady: function() {
                             self.initFields();
+                            $( 'select.erp-country-select').change();
                         },
                         onSubmit: function(modal) {
                             modal.disableButton();

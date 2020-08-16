@@ -1,11 +1,11 @@
 === WP ERP - Complete WordPress Business Manager with HR, CRM & Accounting Systems for Small Businesses ===
-Contributors: tareq1988, nizamuddinbabu, wedevs, ediamin, sabbir1991, asaquzzaman
+Contributors: tareq1988, nizamuddinbabu, wedevs
 Donate Link: https://tareq.co/donate
 Tags: business manager, erp, accounting, crm, hr, project manager, small business, SME, contact, contacts, Customer Relationship Management, employee, leave management, hr, human resource management, job, jobs, job listing, lead management, opportunity, schedule, task, lead, holiday, company
 Requires at least: 4.4
-Tested up to: 5.3.2
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.5.15
+Stable tag: 1.6.3
 License: GPLv2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -266,6 +266,74 @@ No, WP ERP and its add-ons do not support multisite WordPress installation.
 
 
 == Changelog ==
+
+= v1.6.3 -> August 13, 2020 =
+--------------------------
+- [enhancement] Support both old PHPMailer v5 (WordPress <=5.4) and PHPMailer v6 (WordPress >=5.5)
+- [new] Added Bank Transaction Charge on Accounting Module
+- [fix] Fixed life stage display issue when translating
+
+= v1.6.2 -> July 23, 2020 =
+--------------------------
+- [new] added bulk action for leave requests
+- [fix] Fixed pdf attachment issue at transactional emails
+- [enhancement] Added missing string translation for Accounting module
+- [new] Added accounting emailer class
+- [new] Added tab view at email setting page
+- [new] Filter extension email base on criteria
+- [new] Registered switch check for email type & configure email for invoice
+- [new] Added accounting payment email template
+- [new] Added new purchase email template at accounting
+- [new] Fixes Cannot find taxes in Chart of Accounts #1066
+- [new] Fixed Chart of account ledgers update issue
+- [new] Added email template for accounting product estimate
+- [new] Configured accounting new purchase order create email template
+- [new] Configured pay purchase email template for accounting
+- [new] Disallowing expense, bill & pay bill emails
+
+= v1.6.1 -> June 30, 2020 =
+--------------------------
+- [fix] Fixed auto select issue of state while adding new company
+- [fix] Fixed vendor search issue while adding new product
+- [new] Added custom date range search for leave report
+- [fix] Fixed email Template is adding back slash (\) when using with single and double quote
+
+= v1.6.0 -> June 01, 2020 =
+--------------------------
+- [enhancement] Rewritten HR leave feature from the ground up for better performance and better management.
+- [new] Introduced new tables related to leaves for better management
+- [new] Added Year support for leaves under Settings —> HR —> Leave Years
+- [new] Moved policy name under Leave Management —> Policies —> View Leave Types for better policy management. Now you can define all leave types eg: Annual Leave, Casual Leave, Sick Leave, etc in one place and reuse them when you create new policies
+- [new] Add new policy page moved to a standalone page
+- [new] Leave Year and Leave Type fields are mandatory to create new policies now
+- [new] Now policies can be customized for each leave year by leaving previous policy settings untouched
+- [new] Now policies can be duplicated depending on department, designation, location, gender, marital status filter
+- [new] Added copy feature for policies where you can copy an existing policy and reuse it for next year
+- [enhancement] Updated Leave Entitlements table for a more compact view.
+- [enhancement] Updated Leave Entitlements: Add New page with related policy filters, now to entitle employees to a policy, you’ve to select related filters to get desired leave policy
+- [enhancement] Now only full-time employees will be considered for leave entitlements
+- [new] Added related filters for leave entitlement list page
+- [enhancement] Moved policy and entitlement delete feature to debug mode. If you want to delete leave policies or leave entitlements, enable debug mode from Settings —> General —> Enable Debug Mode
+- [new] Added new Year field for New Leave Request form on admin and Take a Leave modal on employee end, if there are multiple leave years defined, users can choose which leave year they are going to apply leave for
+- [enhancement] Updated Leave History section under Employee —> Leave tab, so that user can view all request made from their end, view request status, filter through a leave year, approve status and policies, etc
+- [new] User can now apply for leaves for multiple leave year
+- [new] Added Approve message feature while approving a leave request
+- [new] Added new Approved By column on leave request table
+- [enhancement] Updated existing leave request table view for better information display, now you can get an overview of leave request on a more compact way
+- [tweak] Removed leave request bulk action from Leave Requests table
+- [tweak] Updated API related to leave features
+- [tweak] Updated some string on various pages
+- [enhancement] On CRM Contact Activity Feeds Filter added a new filter to display all activities, thanks to Andrija Naglic
+- [fix] updated schedule event hooks to avoid duplicate events
+- [fix] updated validation for extra leave requests
+
+= v1.5.16 -> April 17, 2020 =
+--------------------------
+- [fix] [Accounting] Fixed Trial Balance bank balance-loan calculation
+- [fix] [Accounting] Fixed balance of ledger report debit-credit label: Wrong Dr/Cr label is showing at the rightmost balance column in the list row of accounting ledger details report page.
+- [fix] [Accounting] moved Chart of Accounts "Sales Returns and Allowance:1403" from Income to Expense section
+- [fix] fixed tooltip display issue on WP ERP -> Tools -> Status page
+- [fix] fixed a notice on “Latest ERP Blogs” section under WP ERP -> Dashboard page
 
 = v1.5.15 -> March 31, 2020 =
 - [fix] Plugin update capability of the user
@@ -1150,4 +1218,5 @@ No, WP ERP and its add-ons do not support multisite WordPress installation.
 
 == Upgrade Notice ==
 
-Nothing here right now.
+= 1.6.0 =
+This is a major release of ERP. Before update please take a backup of your existing database. Also if you are using WP ERP - HR Frontend, WP ERP - Attendance or WP ERP - Workflow extensions, please update those after you update ERP

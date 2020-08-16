@@ -114,7 +114,7 @@
                                                 </label>
                                             </div>
                                             <div class="wperp-col-sm-9 wperp-col-xs-12">
-                                                <input type="checkbox" v-model="selfOwner" value="self" :required="selfOwner"> Self
+                                                <input type="checkbox" v-model="selfOwner" value="self" :required="selfOwner"> {{ __('self', 'erp') }}
                                             </div>
 
                                             <div class="wperp-col-sm-3 wperp-col-xs-12" v-show="!selfOwner">
@@ -226,6 +226,26 @@ export default {
         }
 
         this.loaded();
+
+        this.$root.$on('options-query', query => {
+            if (query) {
+
+                HTTP.get('vendors', {
+                    params: {
+                        search: query
+                    }
+                } ).then(response => {
+                    if (response.data) {
+                        this.vendors = [];
+                        for (const i in response.data) {
+                            var vendor = response.data[i];
+                            var object = { id: vendor.id, name: vendor.first_name + ' ' + vendor.last_name };
+                            this.vendors.push(object);
+                        }
+                    }
+                });
+            }
+        });
     },
 
     methods: {

@@ -190,15 +190,15 @@ function erp_crm_get_details_url( $id, $type ) {
 function erp_crm_get_life_stages_dropdown_raw( $label = [], $counts = [] ) {
 
     $counts = wp_parse_args( $counts, [
-        'l0' => 0,
-        'l1' => 0,
-        'l2' => 0,
-        'l3' => 0,
-        'l4' => 0,
-        'l5' => 0,
-        'l6' => 0,
-        'l7' => 0,
-        'l8' => 0
+        'l0' => 1,
+        'l1' => 1,
+        'l2' => 1,
+        'l3' => 1,
+        'l4' => 1,
+        'l5' => 1,
+        'l6' => 1,
+        'l7' => 1,
+        'l8' => 1
     ] );
 
     $life_stages = [
@@ -3140,7 +3140,7 @@ function erp_crm_render_save_replies( $template_id, $contact_id ) {
 
     return [
         'subject'  => $templates->subject,
-        'template' => $body
+        'template' => stripslashes_deep( $body )
     ];
 }
 

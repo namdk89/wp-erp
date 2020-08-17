@@ -1174,7 +1174,7 @@ class Ajax_Handler {
         }
 
         // Check permission
-        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
             $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
         }
 
@@ -1384,7 +1384,7 @@ class Ajax_Handler {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
             $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
         }
 
@@ -1411,7 +1411,7 @@ class Ajax_Handler {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
             $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
         }
 
@@ -1472,7 +1472,7 @@ class Ajax_Handler {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
             $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
         }
 
@@ -1563,7 +1563,7 @@ class Ajax_Handler {
             $this->send_error( __( 'Error: Nonce verification failed', 'erp' ) );
         }
 
-        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) ) {
             $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
         }
 

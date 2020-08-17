@@ -3690,7 +3690,7 @@ function erp_crm_get_default_contact_owner() {
  * @return boolean
  */
 function erp_crm_wc_prevent_admin_access( $prevent_access ) {
-    if ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) {
+    if ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) {
         return false;
     }
 
@@ -3739,9 +3739,10 @@ function erp_dropdown_roles( $selected = '' ) {
  */
 function erp_crm_login_redirect( $redirect_to, $roles ) {
     $crm_manager = erp_crm_get_manager_role();
+    $crm_leader = erp_crm_get_leader_role();
     $crm_agent   = erp_crm_get_agent_role();
 
-    if ( in_array( $crm_manager, $roles ) || in_array( $crm_agent, $roles ) ) {
+    if ( in_array( $crm_manager, $roles ) || in_array( $crm_leader, $roles )  || in_array( $crm_agent, $roles ) ) {
         $redirect_to = get_admin_url( null, 'admin.php?page=erp-crm' );
     }
 

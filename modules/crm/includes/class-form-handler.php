@@ -37,9 +37,11 @@ class Form_Handler {
      */
     public static function crm_permission_set( $post, $user ) {
         $enable_crm_manager = isset( $post['crm_manager'] ) ? filter_var( $post['crm_manager'], FILTER_VALIDATE_BOOLEAN ) : false;
+        $enable_crm_leader = isset( $post['crm_leader'] ) ? filter_var( $post['crm_leader'], FILTER_VALIDATE_BOOLEAN ) : false;
         $enable_crm_agent   = isset( $post['crm_agent'] ) ? filter_var( $post['crm_agent'], FILTER_VALIDATE_BOOLEAN ) : false;
 
         $crm_manager_role = erp_crm_get_manager_role();
+        $crm_leader_role = erp_crm_get_leader_role();
         $crm_agent_role = erp_crm_get_agent_role();
 
         // TODO::We are duplicating \WeDevs\ERP\CRM\User_Profile->update_user() process here,
@@ -49,6 +51,12 @@ class Form_Handler {
                 $user->add_role( $crm_manager_role );
             } else {
                 $user->remove_role( $crm_manager_role );
+            }
+
+            if ( $enable_crm_leader ) {
+                $user->add_role( $crm_leader_role );
+            } else {
+                $user->remove_role( $crm_leader_role );
             }
 
             if ( $enable_crm_agent ) {

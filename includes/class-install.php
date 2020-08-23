@@ -822,6 +822,7 @@ May you enjoy the fruits of your labors for years to come'
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_crm_contact_group` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `name` varchar(255) DEFAULT NULL,
+                `owner` int(11) DEFAULT NULL,
                 `description` text,
                 `private` TINYINT(1) DEFAULT NULL,
                 `created_at` datetime DEFAULT NULL,

@@ -11,7 +11,7 @@ use WeDevs\ERP\Framework\Model;
 class ContactGroup extends Model {
     protected $table = 'erp_crm_contact_group';
 
-    protected $fillable = [ 'name', 'private', 'description' ];
+    protected $fillable = [ 'name', 'owner', 'private', 'description' ];
 
     public $timestamps = true;
 
@@ -46,4 +46,7 @@ class ContactGroup extends Model {
         return $query;
     }
 
+    public function getCasts() {
+        return ['id' => 'int', 'owner' => 'int'];
+    }
 }

@@ -98,9 +98,17 @@ function erp_get_peoples( $args = [] ) {
         if( !empty($contact_owner) ){
             $sql['where'][] = "AND people.contact_owner='$contact_owner'";
         }
-        if ( current_user_can( 'erp_crm_agent' ) ) {
+        if ( !current_user_can( 'erp_crm_manager' ) ) {
             $current_user_id = get_current_user_id();
-            $sql['where'][] = "AND people.contact_owner='$current_user_id'";
+            $group_tb = $wpdb->prefix . 'erp_crm_contact_group';
+            $subscriber_tb = $wpdb->prefix . 'erp_crm_contact_subscriber';
+            if ( !current_user_can( 'erp_crm_leader' )) {
+                if (current_user_can( 'erp_crm_agent' )) {
+                    $sql['where'][] = "AND people.contact_owner='$current_user_id'";
+                }
+            } else {
+                $sql['where'][] = "AND (people.contact_owner='$current_user_id' OR people.id IN (SELECT sc.user_id FROM $subscriber_tb as sc LEFT JOIN $group_tb AS gr ON sc.group_id = gr.id WHERE gr.owner='$current_user_id'))";
+            }
         }
 
         // Check if the row want to search

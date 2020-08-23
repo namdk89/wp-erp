@@ -169,9 +169,6 @@ function erp_crm_get_caps_for_role( $role = '' ) {
                 'erp_crm_manage_dashboard' => true,
                 'erp_crm_manage_schedules' => true,
                 'erp_crm_manage_groups'    => true,
-                'erp_crm_create_groups'    => true,
-                'erp_crm_edit_groups'      => true,
-                'erp_crm_delete_groups'    => true,
             ];
             break;
 
@@ -212,7 +209,7 @@ function erp_crm_is_current_user_manager() {
 }
 
 /**
- * Check is current user is leader
+ * Check is current user is CRM Leader
  *
  * @since 1.0
  *

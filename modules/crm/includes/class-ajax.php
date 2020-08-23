@@ -888,6 +888,7 @@ class Ajax_Handler {
         $data = [
             'id'          => ( isset( $_POST['id'] ) && !empty( $form_data['id'] ) ) ? sanitize_text_field( wp_unslash( $form_data['id'] ) ) : '',
             'name'        => sanitize_text_field( wp_unslash( $form_data['group_name'] ) ),
+            'owner'       => ( isset( $_POST['group_owner'] ) && !empty( $form_data['group_owner'] ) ) ? sanitize_text_field( wp_unslash( $form_data['group_owner'] ) ) : '',
             'description' => sanitize_text_field( wp_unslash( $form_data['group_description'] ) ),
             'private'     => erp_validate_boolean( $form_data['group_private'] ) ? 1 : null,
         ];

@@ -1,7 +1,13 @@
 <div class="wrap erp-crm-subscriber-contact" id="wp-erp">
 
-    <h2><?php esc_attr_e( 'Subscribed Contacts', 'erp' ); ?>
-        <a href="#" id="erp-new-subscriber-contact" class="erp-new-subscriber-contact add-new-h2" title="<?php esc_attr_e( 'Assign a Contact', 'erp' ); ?>"><?php esc_attr_e( 'Assign a Contact', 'erp' ); ?></a>
+    <h2 id="erp-subscriber-header"><?php esc_attr_e( 'Subscribed Contacts', 'erp' ); ?>
+        <?php
+            if(current_user_can('erp_crm_manager')) {
+                $title = translate( 'Assign a Contact', 'erp' );
+                /*<a href="#" id="erp-new-subscriber-contact" class="erp-new-subscriber-contact add-new-h2" title="<?php esc_attr_e( 'Assign a Contact', 'erp' ); ?>"><?php esc_attr_e( 'Assign a Contact', 'erp' ); ?></a>*/
+                echo "<a href='#' id='erp-new-subscriber-contact' class='erp-new-subscriber-contact add-new-h2' title='".$title."'>".$title."</a>";
+            }
+        ?>
         <a href="<?php echo esc_url_raw( add_query_arg( [ 'page' => 'erp-crm', 'section' => 'contact-groups' ], admin_url( 'admin.php' ) ) ) ?>" class="add-new-h2" title="<?php esc_attr_e( 'Back to Contact Group', 'erp' ); ?>"><?php esc_attr_e( 'Back to Contact Group', 'erp' ); ?></a>
     </h2>
 

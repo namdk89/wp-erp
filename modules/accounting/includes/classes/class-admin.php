@@ -252,7 +252,7 @@ class Admin {
                 $hide[] = true;
             }
 
-            if ( ! current_user_can( 'erp_crm_manager' ) && ! current_user_can( 'erp_crm_agent' ) ) {
+            if ( ! current_user_can( 'erp_crm_manager' ) && ! current_user_can( 'erp_crm_leader' ) && ! current_user_can( 'erp_crm_agent' ) ) {
                 unset( $header['crm'] );
                 $hide[] = true;
             }

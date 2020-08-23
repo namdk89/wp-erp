@@ -1080,6 +1080,7 @@ function erp_show_users_own_attachments( $query ) {
         if ( current_user_can( 'erp_hr_manager' )
              || current_user_can( 'employee' )
              || current_user_can( 'erp_crm_manager' )
+             || current_user_can( 'erp_crm_leader' )
              || current_user_can( 'erp_crm_agent' )
         ) {
             $query['author'] = $id;

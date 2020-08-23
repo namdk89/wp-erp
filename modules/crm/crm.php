@@ -208,6 +208,7 @@ class Customer_Relationship {
             'current_user_id'      => get_current_user_id(),
             'isAdmin'              => current_user_can( 'manage_options' ),
             'isCrmManager'         => current_user_can( 'erp_crm_manager' ),
+            'isCrmLeader'          => current_user_can( 'erp_crm_leader' ),
             'isAgent'              => current_user_can( 'erp_crm_agent' ),
             'confirm'              => __( 'Are you sure?', 'erp' ),
             'date_format'          => get_option( 'date_format' ),
@@ -257,6 +258,7 @@ class Customer_Relationship {
                 $localize_script['saveAdvanceSearch'] = erp_crm_get_save_search_item( [ 'type' => 'contact' ] );
                 $localize_script['isAdmin']           = current_user_can( 'manage_options' );
                 $localize_script['isCrmManager']      = current_user_can( 'erp_crm_manager' );
+                $localize_script['isCrmLeader']       = current_user_can( 'erp_crm_leader' );
                 $localize_script['isAgent']           = current_user_can( 'erp_crm_agent' );
 
                 $country = \WeDevs\ERP\Countries::instance();
@@ -275,6 +277,7 @@ class Customer_Relationship {
                 $localize_script['saveAdvanceSearch'] = erp_crm_get_save_search_item( [ 'type' => 'company' ] );
                 $localize_script['isAdmin']           = current_user_can( 'manage_options' );
                 $localize_script['isCrmManager']      = current_user_can( 'erp_crm_manager' );
+                $localize_script['isCrmLeader']       = current_user_can( 'erp_crm_leader' );
                 $localize_script['isAgent']           = current_user_can( 'erp_crm_agent' );
 
                 $country = \WeDevs\ERP\Countries::instance();

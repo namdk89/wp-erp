@@ -258,6 +258,7 @@ May you enjoy the fruits of your labors for years to come'
         wp_clear_scheduled_hook( 'erp_weekly_scheduled_events' );
 
         remove_role( 'erp_crm_manager' );
+        remove_role( 'erp_crm_leader' );
         remove_role( 'erp_crm_agent' );
     }
 

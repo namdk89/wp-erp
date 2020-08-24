@@ -18,7 +18,7 @@ $users       = erp_crm_get_crm_user();
                             <option value=""><?php esc_attr_e( '&mdash; Select Owner &mdash;', 'erp' ); ?></option>
                             <?php
                             foreach ( $users as $user ) {
-                                echo esc_html( '<option value="' . $user->ID . '">' . $user->display_name . ' &lt;' . $user->user_email . '&gt;' . '</option>' );
+                                echo '<option value="' . $user->ID . '">' . $user->display_name . ' &lt;' . $user->user_email . '&gt;' . '</option>';
                             }
                             ?>
                         </select>
@@ -33,7 +33,7 @@ $users       = erp_crm_get_crm_user();
                         <select name="life_stage" id="life_stage">
                         <?php
                         foreach ( $life_stages as $key => $value ) {
-                            echo esc_html( '<option value="' . $key . '">' . $value . '</option>' );
+                            echo '<option value="' . $key . '">' . $value . '</option>';
                         }
                         ?>
                     </select>

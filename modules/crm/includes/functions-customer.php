@@ -190,15 +190,15 @@ function erp_crm_get_details_url( $id, $type ) {
 function erp_crm_get_life_stages_dropdown_raw( $label = [], $counts = [] ) {
 
     $counts = wp_parse_args( $counts, [
-        'l0' => 0,
-        'l1' => 0,
-        'l2' => 0,
-        'l3' => 0,
-        'l4' => 0,
-        'l5' => 0,
-        'l6' => 0,
-        'l7' => 0,
-        'l8' => 0
+        'l0' => 1,
+        'l1' => 1,
+        'l2' => 1,
+        'l3' => 1,
+        'l4' => 1,
+        'l5' => 1,
+        'l6' => 1,
+        'l7' => 1,
+        'l8' => 1
     ] );
 
     $life_stages = [
@@ -318,9 +318,17 @@ function erp_crm_customer_get_status_count( $type = null ) {
                    . " left join {$type_tbl} on {$rel_tbl}.people_types_id = {$type_tbl}.id"
                    . " WHERE {$type_tbl}.name = %s AND {$rel_tbl}.deleted_at IS NULL";
 
-        if ( current_user_can( 'erp_crm_agent' ) ) {
+        if ( !current_user_can( 'erp_crm_manager' ) ) {
             $current_user_id = get_current_user_id();
-            $sql .= " AND {$people_tbl}.contact_owner = {$current_user_id}";
+            $group_tb = $wpdb->prefix . 'erp_crm_contact_group';
+            $subscriber_tb = $wpdb->prefix . 'erp_crm_contact_subscriber';
+            if ( !current_user_can( 'erp_crm_leader' )) {
+                if (current_user_can( 'erp_crm_agent' )) {
+                    $sql .= " AND {$people_tbl}.contact_owner = {$current_user_id}";
+                }
+            } else {
+                $sql .= " AND ({$people_tbl}.contact_owner = {$current_user_id} OR {$people_tbl}.id IN (SELECT sc.user_id FROM $subscriber_tb as sc LEFT JOIN $group_tb AS gr ON sc.group_id = gr.id WHERE gr.owner='$current_user_id'))";
+            }
         }
         $sql    .= " group by life_stage";
         $results = $wpdb->get_results( $wpdb->prepare( $sql, $type ) );
@@ -1125,7 +1133,7 @@ function erp_crm_get_contact_groups( $args = [] ) {
 
         foreach ( $results as $key => $group ) {
 
-            if ( ! current_user_can( 'erp_crm_create_groups' ) ) {
+            if ( ! current_user_can( 'erp_crm_create_groups' ) && $group['owner'] != get_current_user_id()) {
                 $contact_subscriber = $group['contact_subscriber'];
                 $agent_subscriber   = [];
                 foreach ( $contact_subscriber as $cs ) {
@@ -1151,10 +1159,15 @@ function erp_crm_get_contact_groups( $args = [] ) {
 
             unset( $group['contact_subscriber'] );
 
-            $items[ $key ]                 = $group;
-            $items[ $key ]['subscriber']   = count( $subscribers );
-            $items[ $key ]['unconfirmed']  = count( $unconfirmed );
-            $items[ $key ]['unsubscriber'] = count( $unsubscribers );
+            $count_subscribers = count( $subscribers );
+            $count_unconfirmed = count( $unconfirmed );
+            $count_unsubscribers = count( $unsubscribers );
+            if (erp_crm_is_current_user_manager() ||  $group['owner'] == get_current_user_id() ||  $count_subscribers + $count_unconfirmed + $count_unsubscribers > 0) {
+                $items[ $key ]                 = $group;
+                $items[ $key ]['subscriber']   = $count_subscribers;
+                $items[ $key ]['unconfirmed']  = $count_unconfirmed;
+                $items[ $key ]['unsubscriber'] = $count_unsubscribers;
+            }
         }
 
         $items = erp_array_to_object( $items );
@@ -1231,7 +1244,7 @@ function erp_crm_get_subscriber_contact( $args = [] ) {
         $contact_subscribers = WeDevs\ERP\CRM\Models\ContactSubscriber::leftjoin( $contact_group_tb, $contact_group_tb . '.id', '=', $contact_subscribe_tb . '.group_id' );
 
 //        $contact_subscribers = $contact_subscribers::leftjoin('')
-        if( ! current_user_can( 'erp_crm_create_groups' ) ) {
+        if( !erp_crm_is_current_user_manager() && !erp_crm_is_current_user_leader() ) {
             $erp_peoples         = $wpdb->prefix . 'erp_peoples';
             $contact_subscribers = $contact_subscribers->leftJoin( $erp_peoples, $erp_peoples . '.id', '=', $contact_subscribe_tb . '.user_id' )->addSelect( $contact_subscribe_tb . '.*', $contact_group_tb . '.*', $erp_peoples . '.contact_owner' )->where( $erp_peoples . '.contact_owner', '=', get_current_user_id() );
         }
@@ -1243,6 +1256,9 @@ function erp_crm_get_subscriber_contact( $args = [] ) {
 
         if ( isset( $args['group_id'] ) && ! empty( $args['group_id'] ) ) {
             $contact_subscribers = $contact_subscribers->where( $contact_group_tb . '.id', '=', $args['group_id'] );
+            if (!erp_crm_is_current_user_manager()) {
+                $contact_subscribers = $contact_subscribers->orWhere( $contact_group_tb . '.owner', '=', get_current_user_id());
+            }
         }
 
         // Check is the row want to search
@@ -2776,10 +2792,14 @@ function erp_crm_get_crm_user( $args = [] ) {
 
     $user_query_args = [
         'fields'   => $args['fields'],
-        'role__in' => [ 'erp_crm_manager', 'erp_crm_agent' ],
+        'role__in' => [ 'erp_crm_manager', 'erp_crm_leader', 'erp_crm_agent' ],
         'orderby'  => $args['orderby'],
         'order'    => $args['order'],
     ];
+
+    if ( ! empty( $args['role__in'] ) ) {
+        $user_query_args['role__in'] = $args['role__in'];
+    }
 
     if ( $args['number'] != - 1 ) {
         $user_query_args['number'] = $args['number'];
@@ -2837,6 +2857,30 @@ function erp_crm_get_crm_user( $args = [] ) {
  */
 function erp_crm_get_crm_user_dropdown( $label = [] ) {
     $users = erp_crm_get_crm_user();
+    $list  = [];
+
+    foreach ( $users as $key => $user ) {
+        $list[ $user->ID ] = esc_html( $user->display_name ) . ' (' . esc_html( $user->user_email ) . ')';
+    }
+
+    if ( $label ) {
+        $list = $label + $list;
+    }
+
+    return $list;
+}
+
+/**
+ * Get crm leader for dropdown
+ *
+ * @since 1.0
+ *
+ * @param  array $label
+ *
+ * @return array
+ */
+function erp_crm_get_crm_leader_dropdown( $label = [] ) {
+    $users = erp_crm_get_crm_user([ 'role__in' => [ 'erp_crm_leader' ] ]);
     $list  = [];
 
     foreach ( $users as $key => $user ) {
@@ -3140,7 +3184,7 @@ function erp_crm_render_save_replies( $template_id, $contact_id ) {
 
     return [
         'subject'  => $templates->subject,
-        'template' => $body
+        'template' => stripslashes_deep( $body )
     ];
 }
 
@@ -3205,7 +3249,7 @@ function erp_handle_user_bulk_actions() {
 
             $created       = 0;
             $users         = [];
-            $user_ids      = isset( $_REQUEST['users'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['users'] ) ) : [];
+            $user_ids      = isset( $_REQUEST['users'] ) ? wp_unslash( $_REQUEST['users'] ) : [];
             $life_stage    = isset( $_POST['life_stage'] ) ? sanitize_text_field( wp_unslash( $_POST['life_stage'] ) ) : [];
             $contact_owner = isset( $_POST['contact_owner'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_owner'] ) ) : [];
 
@@ -3690,7 +3734,7 @@ function erp_crm_get_default_contact_owner() {
  * @return boolean
  */
 function erp_crm_wc_prevent_admin_access( $prevent_access ) {
-    if ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_agent_role() ) ) {
+    if ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) || current_user_can( erp_crm_get_agent_role() ) ) {
         return false;
     }
 
@@ -3739,9 +3783,10 @@ function erp_dropdown_roles( $selected = '' ) {
  */
 function erp_crm_login_redirect( $redirect_to, $roles ) {
     $crm_manager = erp_crm_get_manager_role();
+    $crm_leader = erp_crm_get_leader_role();
     $crm_agent   = erp_crm_get_agent_role();
 
-    if ( in_array( $crm_manager, $roles ) || in_array( $crm_agent, $roles ) ) {
+    if ( in_array( $crm_manager, $roles ) || in_array( $crm_leader, $roles )  || in_array( $crm_agent, $roles ) ) {
         $redirect_to = get_admin_url( null, 'admin.php?page=erp-crm' );
     }
 

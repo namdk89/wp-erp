@@ -212,6 +212,14 @@ $old_ledgers = [
         "name"        => "Bank Service Charges"
     ],
     [
+        "code"        => "606",
+        "id"          => 107,
+        "system"      => 0,
+        "category_id" => 12,
+        "chart_id"    => 5,
+        "name"        => "Bank Transaction Charge"
+    ],
+    [
         "code"        => "610",
         "id"          => 27,
         "system"      => 0,
@@ -671,11 +679,6 @@ $ledgers = [
              "system" => 1
          ],
          [
-             "name" => "Sales Returns and Allowance",
-             "code" => 1403,
-             "system" => 1
-         ],
-         [
              "name" => "Gain on Disposal of Plant Assets",
              "code" => 1404,
              "system" => 1
@@ -720,6 +723,11 @@ $ledgers = [
          [
              "name" => "Asset Purchase",
              "code" => 1506,
+             "system" => 1
+         ],
+         [
+             "name" => "Sales Returns and Allowance",
+             "code" => 1403,
              "system" => 1
          ],
      ]

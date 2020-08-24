@@ -12,6 +12,17 @@ function erp_crm_get_manager_role() {
 }
 
 /**
+ * The leader role for CRM leader
+ *
+ * @since 1.0
+ *
+ * @return string
+ */
+function erp_crm_get_leader_role() {
+    return apply_filters( 'erp_crm_get_leader_role', 'erp_crm_leader' );
+}
+
+/**
  * The Crm Agent role for CRM user
  *
  * @since 1.0
@@ -93,6 +104,12 @@ function erp_crm_get_roles() {
             'capabilities' => erp_crm_get_caps_for_role( erp_crm_get_manager_role() )
         ],
 
+        erp_crm_get_leader_role() => [
+            'name'         => __( 'CRM Leader', 'erp' ),
+            'public'       => false,
+            'capabilities' => erp_crm_get_caps_for_role( erp_crm_get_leader_role() )
+        ],
+
         erp_crm_get_agent_role() => [
             'name'         => __( 'CRM Agent', 'erp' ),
             'public'       => false,
@@ -140,6 +157,21 @@ function erp_crm_get_caps_for_role( $role = '' ) {
 
             break;
 
+        case erp_crm_get_leader_role():
+            $caps = [
+                'read'                     => true,
+                'upload_files'             => true,
+                'erp_crm_list_contact'     => true,
+                'erp_crm_add_contact'      => true,
+                'erp_crm_edit_contact'     => true,
+                'erp_crm_delete_contact'   => true,
+                'erp_crm_manage_activites' => true,
+                'erp_crm_manage_dashboard' => true,
+                'erp_crm_manage_schedules' => true,
+                'erp_crm_manage_groups'    => true,
+            ];
+            break;
+
         case erp_crm_get_agent_role():
             $caps = [
                 'read'                     => true,
@@ -170,6 +202,23 @@ function erp_crm_is_current_user_manager() {
     $current_user_role = erp_crm_get_user_role( get_current_user_id() );
 
     if ( erp_crm_get_manager_role() !=  $current_user_role ) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Check is current user is CRM Leader
+ *
+ * @since 1.0
+ *
+ * @return boolean
+ */
+function erp_crm_is_current_user_leader() {
+    $current_user_role = erp_crm_get_user_role( get_current_user_id() );
+
+    if ( erp_crm_get_leader_role() !=  $current_user_role ) {
         return false;
     }
 
@@ -209,6 +258,7 @@ function erp_crm_permission_management_field( $employee ) {
     }
 
     $is_manager = user_can( $employee->id, erp_crm_get_manager_role() ) ? 'on' : 'off';
+    $is_leader = user_can( $employee->id, erp_crm_get_leader_role() ) ? 'on' : 'off';
     $is_agent   = user_can( $employee->id, erp_crm_get_agent_role() ) ? 'on' : 'off';
 
     erp_html_form_input( array(
@@ -218,6 +268,15 @@ function erp_crm_permission_management_field( $employee ) {
         'tag'   => 'div',
         'value' => $is_manager,
         'help'  => __( 'This Employee is CRM Manager', 'erp'  )
+    ) );
+
+    erp_html_form_input( array(
+        'label' => __( 'CRM Leader', 'erp' ),
+        'name'  => 'crm_leader',
+        'type'  => 'checkbox',
+        'tag'   => 'div',
+        'value' => $is_leader,
+        'help'  => __( 'This Employee is CRM Leader', 'erp'  )
     ) );
 
     erp_html_form_input( array(
@@ -257,9 +316,10 @@ function erp_crm_map_meta_caps( $caps = array(), $cap = '', $user_id = 0, $args 
             $data_hard       = isset( $args[1] ) ? $args[1] : false;
 
             $crm_manager_role = erp_crm_get_manager_role();
+            $crm_leader_role = erp_crm_get_leader_role();
             $crm_agent_role   = erp_crm_get_agent_role();
 
-            if ( ! user_can( $user_id, $crm_manager_role ) && user_can( $user_id, $crm_agent_role ) ) {
+            if ( ! user_can( $user_id, $crm_manager_role ) && (user_can( $user_id, $crm_agent_role ) || user_can( $user_id, $crm_leader_role )) ) {
                 $contact_user_id = \WeDevs\ERP\Framework\Models\People::select('user_id')->where( 'id', $contact_id )->first();
 
                 if ( isset( $contact_user_id->user_id ) && $contact_user_id->user_id ) {

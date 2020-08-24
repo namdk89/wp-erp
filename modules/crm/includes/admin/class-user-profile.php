@@ -52,9 +52,10 @@ class User_Profile {
     function update_user( $user_id, $post ) {
 
         $new_crm_manager_role = isset( $post['crm_manager'] ) ? sanitize_text_field( $post['crm_manager'] ) : false;
+        $new_crm_leader_role = isset( $post['crm_leader'] ) ? sanitize_text_field( $post['crm_leader'] ) : false;
         $new_crm_agent_role   = isset( $post['crm_agent'] ) ? sanitize_text_field( $post['crm_agent'] ) : false;
 
-        if ( ! $new_crm_manager_role && ! $new_crm_agent_role ) {
+        if ( ! $new_crm_manager_role &&  ! $new_crm_leader_role && ! $new_crm_agent_role ) {
             return;
         }
 
@@ -69,6 +70,12 @@ class User_Profile {
             $user->add_role( $new_crm_manager_role );
         } else {
             $user->remove_role( erp_crm_get_manager_role() );
+        }
+
+        if ( $new_crm_leader_role ) {
+            $user->add_role( $new_crm_leader_role );
+        } else {
+            $user->remove_role( erp_crm_get_leader_role() );
         }
 
         if ( $new_crm_agent_role ) {
@@ -93,11 +100,17 @@ class User_Profile {
         }
 
         $is_manager = in_array( erp_crm_get_manager_role(), $profileuser->roles ) ? 'checked' : '';
+        $is_leader = in_array( erp_crm_get_leader_role(), $profileuser->roles ) ? 'checked' : '';
         $is_agent   = in_array( erp_crm_get_agent_role(), $profileuser->roles ) ? 'checked' : '';
         ?>
         <label for="erp-crm-manager">
             <input type="checkbox" id="erp-crm-manager" <?php echo esc_attr( $is_manager ); ?> name="crm_manager" value="<?php echo esc_attr( erp_crm_get_manager_role() ); ?>">
             <span class="description"><?php esc_attr_e( 'CRM Manager', 'erp' ); ?></span>
+        </label>
+
+        <label for="erp-crm-leader">
+            <input type="checkbox" id="erp-crm-leader" <?php echo esc_attr( $is_leader ); ?> name="crm_leader" value="<?php echo esc_attr( erp_crm_get_leader_role() ); ?>">
+            <span class="description"><?php esc_attr_e( 'CRM Leader', 'erp' ); ?></span>
         </label>
 
         <label for="erp-crm-agent">

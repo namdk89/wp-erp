@@ -410,9 +410,17 @@
                                 $('div.row[data-checked]', modal).each(function (key, val) {
                                     var self = $(this),
                                         checked = self.data('checked');
-
+                                        
                                     if (checked !== '') {
                                         self.find('input[value="' + checked + '"]').attr('checked', 'checked');
+                                    }
+                                });
+
+                                $('div.row[data-selected]', modal).each(function (key, val) {
+                                    var self = $(this),
+                                        selected = self.data('selected');
+                                    if (selected !== '') {
+                                        self.find('option[value="' + selected + '"]').attr('selected', 'selected');
                                     }
                                 });
                             }

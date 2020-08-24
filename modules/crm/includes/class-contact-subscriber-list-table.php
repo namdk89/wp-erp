@@ -214,6 +214,7 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
      */
     function get_bulk_actions() {
         $actions = array(
+            'assign_user'  => esc_html__( 'Assign User', 'erp' ),
             'delete'  => esc_html__( 'Delete', 'erp' )
         );
 
@@ -332,6 +333,24 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
         $action = $this->current_action();
 
         switch ( $action ) {
+            case 'assign_user':
+                if ( empty( $_REQUEST['suscriber_contact_id'] ) ) {
+                    return;
+                }
+                
+                include( WPERP_CRM_VIEWS . '/bulk-assign-contact.php' );;
+                exit;
+
+                break;
+
+            case 'assign_group_subscriber':
+                $owner_id = isset( $_POST['contact_owner'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_owner'] ) ) : [];
+                $contact_ids = isset( $_REQUEST['suscriber_contact_id'] ) ? wp_unslash( $_REQUEST['suscriber_contact_id'] ) : [];
+                foreach ( $contact_ids as $contact_id ) {
+                    erp_crm_update_contact_owner( $contact_id, $owner_id, 'id' );
+                }
+                break;
+
             case 'delete':
                 erp_crm_contact_subscriber_delete(
                     $_REQUEST['suscriber_contact_id'],

@@ -128,7 +128,7 @@
                                         'options'     => erp_crm_get_crm_user_dropdown( [ '' => '--Select--' ] )
                                     ) ); ?>
                                 </div>
-                            <?php elseif ( current_user_can( 'erp_crm_agent' ) ): ?>
+                            <?php elseif ( current_user_can( 'erp_crm_agent' ) || current_user_can( 'erp_crm_leader' )): ?>
                                 <input type="hidden" name="contact[meta][contact_owner]" value="<?php echo esc_attr( get_current_user_id() ); ?>">
                             <?php endif ?>
 

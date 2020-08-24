@@ -11,6 +11,17 @@
         ) ); ?>
     </div>
 
+    <div class="row" data-selected="{{ data.owner }}">
+        <?php erp_html_form_input( array(
+            'label'       => __( 'Owner', 'erp' ),
+            'name'        => 'group_owner',
+            'required'    => false,
+            'type'        => 'select',
+            'id'          => 'erp-crm-contact-group-owner',
+            'options'     => erp_crm_get_crm_leader_dropdown( [ '' => '--Select--' ] )
+        ) ); ?>
+    </div>
+
     <div class="row">
         <?php erp_html_form_input( array(
             'label'       => __( 'Description', 'erp' ),

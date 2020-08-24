@@ -1260,7 +1260,7 @@
                         return true;
                     }
 
-                    if ( wpErpCrm.isAgent && wpErpCrm.current_user_id == item.assign_to.id ) {
+                    if ( (wpErpCrm.isAgent || wpErpCrm.isCrmLeader) && wpErpCrm.current_user_id == item.assign_to.id ) {
                         return true;
                     }
 
@@ -1277,7 +1277,7 @@
                             return true;
                         }
 
-                        if ( wpErpCrm.isAgent ) {
+                        if ( wpErpCrm.isAgent || wpErpCrm.isCrmLeader ) {
                             return false;
                         }
                     }
@@ -1295,7 +1295,7 @@
                             return true;
                         }
 
-                        if ( wpErpCrm.isAgent && wpErpCrm.current_user_id == item.assign_to.id ) {
+                        if ( (wpErpCrm.isAgent || wpErpCrm.isCrmLeader) && wpErpCrm.current_user_id == item.assign_to.id ) {
                             return true;
                         }
                     }
@@ -1312,7 +1312,7 @@
                             return true;
                         }
 
-                        if ( wpErpCrm.isAgent && wpErpCrm.current_user_id == item.assign_to.id ) {
+                        if ( (wpErpCrm.isAgent || wpErpCrm.isCrmLeader) && wpErpCrm.current_user_id == item.assign_to.id ) {
                             return true;
                         }
                     }
@@ -1331,6 +1331,7 @@
                         extraClass: 'midium',
                         onReady: function() {
                             self.initFields();
+                            $( 'select.erp-country-select').change();
                         },
                         onSubmit: function(modal) {
                             modal.disableButton();

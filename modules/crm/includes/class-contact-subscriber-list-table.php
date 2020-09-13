@@ -105,9 +105,18 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
 
                 return $type;
 
-            case 'group':
+            case 'life_stage':
 
-                return $this->prepare_subscriber_group_data( $subscriber_contact->data );
+                return strtoupper($contact->get_life_stage());
+
+            case 'created_at':
+
+                return $contact->created;
+
+            case 'owner':
+
+                $contact_owner = get_user_by('id', $contact->contact_owner);
+                return $contact_owner->user_email;
 
             default:
                 return isset( $subscriber_contact->$column_name ) ? $subscriber_contact->$column_name : '';
@@ -172,8 +181,9 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
             'name'                   => esc_html__( 'Name', 'erp' ),
             'email'                  => esc_html__( 'Email', 'erp' ),
             'type'                   => esc_html__( 'Contact Type', 'erp' ),
-            'group'                  => esc_html__( 'Group', 'erp' ),
-            'subscription_status'    => esc_html__( 'Status', 'erp' )
+            'life_stage'             => esc_html__( 'Life Stage', 'erp' ),
+            'created_at'             => esc_html__( 'Created At', 'erp' ),
+            'owner'                  => esc_html__( 'Owner', 'erp' )
         );
 
         return apply_filters( 'erp_crm_contact_subscribe_table_cols', $columns );
@@ -322,7 +332,7 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
         // security check!
         if ( isset( $_REQUEST['_wpnonce'] ) && ! empty( $_REQUEST['_wpnonce'] ) ) {
 
-            $nonce  = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
+            $nonce  = $_REQUEST['_wpnonce'];
             $action = 'bulk-' . $this->_args['plural'];
 
             if ( ! wp_verify_nonce( $nonce, $action ) ) {
@@ -344,10 +354,11 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
                 break;
 
             case 'assign_group_subscriber':
-                $owner_id = isset( $_POST['contact_owner'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_owner'] ) ) : [];
+                $owner_id = isset( $_REQUEST['contact_owner'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['contact_owner'] ) ) : [];
+                $life_stage = isset( $_REQUEST['life_stage'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['life_stage'] ) ) : [];
                 $contact_ids = isset( $_REQUEST['suscriber_contact_id'] ) ? wp_unslash( $_REQUEST['suscriber_contact_id'] ) : [];
                 foreach ( $contact_ids as $contact_id ) {
-                    erp_crm_update_contact_owner( $contact_id, $owner_id, 'id' );
+                    erp_crm_update_contact_owner_and_life_stage( $contact_id, $owner_id, $life_stage, 'id' );
                 }
                 break;
 

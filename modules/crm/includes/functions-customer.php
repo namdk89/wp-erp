@@ -3875,6 +3875,54 @@ function erp_crm_update_contact_owner( $contact_id, $owner_id, $field_type = 'us
 }
 
 /**
+ * Update contact life stage
+ *
+ * @since 1.2.7
+ *
+ * @param $contact_id
+ * @param $life_stage
+ *
+ * @return WP_Error|void
+ */
+function erp_crm_update_contact_life_stage( $contact_id, $life_stage, $field_type = 'user_id' ) {
+    $people = erp_get_people_by( $field_type, $contact_id );
+
+    if ( empty( $people ) ) {
+        return new \WP_Error( 'no-erp-people', __( 'People not exists', 'erp' ) );
+    }
+
+    $contact = new \WeDevs\ERP\CRM\Contact( $people->id );
+
+    $contact->update_property('life_stage', $life_stage);
+}
+
+/**
+ * Update contact owner and contact life stage
+ *
+ * @since 1.2.7
+ *
+ * @param $contact_id
+ * @param $owner_id
+ * @param $life_stage
+ *
+ * @return WP_Error|void
+ */
+function erp_crm_update_contact_owner_and_life_stage( $contact_id, $owner_id, $life_stage, $field_type = 'user_id' ) {
+    $people = erp_get_people_by( $field_type, $contact_id );
+
+    if ( empty( $people ) ) {
+        return new \WP_Error( 'no-erp-people', __( 'People not exists', 'erp' ) );
+    }
+
+    if ( !empty( $owner_id ) && !empty( $life_stage ) )
+        \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['life_stage' => $life_stage, 'contact_owner' => $owner_id]);
+    else if ( !empty( $owner_id ) )
+        \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['contact_owner' => $owner_id]);
+    else
+        \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['life_stage' => $life_stage]);
+}
+
+/**
  * Get all contact groups
  *
  * @since 1.2.7

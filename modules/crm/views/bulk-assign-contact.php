@@ -31,6 +31,7 @@ $users       = erp_crm_get_crm_user();
                         <td>'.$contact_owner->user_email.'</td>
                       </tr>';
             }
+            echo '<input type="hidden" name="filter_contact_group" value="'.$_REQUEST['filter_contact_group'].'">'
             ?>
         </table>
 

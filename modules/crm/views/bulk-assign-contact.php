@@ -2,31 +2,34 @@
 $life_stages = erp_crm_get_life_stages_dropdown_raw();
 $users       = erp_crm_get_crm_user();
 ?>
-<form method="post" name="assign_contcontact_from_useract_from_group" id="assign_contact_from_group">
+<form method="post" name="assign_contact_from_group" id="assign_contact_from_group">
     <div class="wrap">
 
         <h2><?php esc_attr_e( 'Assign selected Contacts', 'erp' ); ?></h2>
 
-        <table class='wp-list-table widefat fixed striped contact-group-list-table contactgroups'>
+        <table class="wp-list-table widefat fixed striped contact-group-list-table contactgroups">
             <tr>
-                <th><?php esc_attr_e( 'Index', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'ID', 'erp' ); ?></th>
                 <th><?php esc_attr_e( 'Name', 'erp' ); ?></th>
                 <th><?php esc_attr_e( 'Phone', 'erp' ); ?></th>
                 <th><?php esc_attr_e( 'Email', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'Life Stage', 'erp' ); ?></th>
                 <th><?php esc_attr_e( 'Created', 'erp' ); ?></th>
+                <th><?php esc_attr_e( 'Owner', 'erp' ); ?></th>
             </tr>
             <?php
-            $index = 1;
             foreach ( $_REQUEST['suscriber_contact_id'] as $id ) {
                 $contact = erp_get_people_by('id', $id);
+                $contact_owner = get_user_by('id', $contact->contact_owner);
                 echo '<tr>
-                        <td>'.$index.'</td>
+                        <td><input type="hidden" name="suscriber_contact_id[]" value="'.$id.'"/>'.$id.'</td>
                         <td>'.$contact->last_name.' '.$contact->first_name.'</td>
                         <td>'.$contact->phone.'</td>
                         <td>'.$contact->email.'</td>
+                        <td>'.strtoupper($contact->life_stage).'</td>
                         <td>'.$contact->created.'</td>
+                        <td>'.$contact_owner->user_email.'</td>
                       </tr>';
-                $index ++;
             }
             ?>
         </table>
@@ -68,6 +71,7 @@ $users       = erp_crm_get_crm_user();
             </tbody>
         </table>
 
+        <?php wp_nonce_field( 'bulk-contactsubscribers' ); ?>
         <input type="hidden" name="action" value="assign_group_subscriber">
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Assign Contacts', 'erp' ); ?>"></p>
     </div>

@@ -357,8 +357,13 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
                 $owner_id = isset( $_REQUEST['contact_owner'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['contact_owner'] ) ) : [];
                 $life_stage = isset( $_REQUEST['life_stage'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['life_stage'] ) ) : [];
                 $contact_ids = isset( $_REQUEST['suscriber_contact_id'] ) ? wp_unslash( $_REQUEST['suscriber_contact_id'] ) : [];
+                $remove_from_group = isset( $_REQUEST['remove_from_group'] ) ? wp_unslash( $_REQUEST['remove_from_group'] ) : [];
+                $group_id = isset( $_REQUEST['filter_contact_group'] ) ? wp_unslash( $_REQUEST['filter_contact_group'] ) : [];
                 foreach ( $contact_ids as $contact_id ) {
                     erp_crm_update_contact_owner_and_life_stage( $contact_id, $owner_id, $life_stage, 'id' );
+                    if ($remove_from_group == 'on') {
+                        erp_crm_contact_subscriber_delete($contact_id, $group_id);
+                    }
                 }
                 break;
 

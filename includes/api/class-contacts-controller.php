@@ -172,6 +172,26 @@ class Contacts_Controller extends REST_Controller {
 
         $contact = erp_get_people( $id );
 
+        if ( ! empty( $request['contact_group'] ) ) {
+            $contact_group = absint( $request['contact_group'] );
+            $existing_data = \WeDevs\ERP\CRM\Models\ContactSubscriber::where( [
+                'group_id' => $contact_group,
+                'user_id'  => $id
+            ] )->first();
+            if ( empty( $existing_data ) ) {
+                $hash = sha1( microtime() . 'erp-subscription-form' . $contact_group . $id );
+
+                erp_crm_create_new_contact_subscriber( [
+                    'group_id'       => $contact_group,
+                    'user_id'        => $id,
+                    'status'         => 'subscribe',
+                    'subscribe_at'   => current_time( 'mysql' ),
+                    'unsubscribe_at' => null,
+                    'hash'           => $hash
+                ] );
+            }
+        }
+
         $request->set_param( 'context', 'edit' );
         $response = $this->prepare_item_for_response( $contact, $request );
         $response = rest_ensure_response( $response );

@@ -31,6 +31,7 @@ $users       = erp_crm_get_crm_user();
                         <td>'.$contact_owner->user_email.'</td>
                       </tr>';
             }
+            echo '<input type="hidden" name="filter_contact_group" value="'.$_REQUEST['filter_contact_group'].'">'
             ?>
         </table>
 
@@ -62,6 +63,22 @@ $users       = erp_crm_get_crm_user();
                         echo '<option value="">' . "--Select--" . '</option>';
                         foreach ( $life_stages as $key => $value ) {
                             echo '<option value="' . $key . '">' . $value . '</option>';
+                        }
+                        ?>
+                    </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <label for="remove_from_group"><?php esc_attr_e( 'Remove from group', 'erp' ); ?></label>
+                    </th>
+                    <td>
+                        <?php
+                        if(current_user_can('erp_crm_manager')) {
+                            echo '<input type="checkbox" name="remove_from_group">';
+                        } else {
+                            echo '<input type="checkbox" name="remove_from_group" disabled>';
                         }
                         ?>
                     </select>

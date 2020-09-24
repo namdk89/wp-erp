@@ -69,6 +69,22 @@ $users       = erp_crm_get_crm_user();
                     </td>
                 </tr>
 
+                <tr>
+                    <th>
+                        <label for="remove_from_group"><?php esc_attr_e( 'Remove from group', 'erp' ); ?></label>
+                    </th>
+                    <td>
+                        <?php
+                        if(current_user_can('erp_crm_manager')) {
+                            echo '<input type="checkbox" name="remove_from_group">';
+                        } else {
+                            echo '<input type="checkbox" name="remove_from_group" disabled>';
+                        }
+                        ?>
+                    </select>
+                    </td>
+                </tr>
+
             </tbody>
         </table>
 

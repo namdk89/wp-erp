@@ -732,7 +732,9 @@ May you enjoy the fruits of your labors for years to come'
                 KEY `user_id` (`user_id`),
                 KEY `first_name` (`first_name`),
                 KEY `last_name` (`last_name`),
-                KEY `email` (`email`)
+                KEY `email` (`email`),
+                KEY `phone` (`phone`)
+                KEY `id_life_stage` (`id`, `life_stage`)
             ) $charset_collate;",
 
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_peoplemeta` (
@@ -760,6 +762,7 @@ May you enjoy the fruits of your labors for years to come'
                 PRIMARY KEY (`id`),
                 KEY `people_id` (`people_id`),
                 KEY `people_types_id` (`people_types_id`)
+                KEY `deleted_at_people_types_id` (`deleted_at`, `people_types_id`)
             ) $charset_collate;",
 
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_audit_log` (
@@ -828,7 +831,8 @@ May you enjoy the fruits of your labors for years to come'
                 `private` TINYINT(1) DEFAULT NULL,
                 `created_at` datetime DEFAULT NULL,
                 `updated_at` datetime DEFAULT NULL,
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                KEY `owner` (`owner`)
             ) $charset_collate;",
 
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}erp_crm_contact_subscriber` (

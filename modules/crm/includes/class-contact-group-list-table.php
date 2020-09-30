@@ -52,12 +52,12 @@ class Contact_Group_List_Table extends \WP_List_Table {
                 $data = $contact_group->subscriber;
                 break;
 
-            case 'unconfirmed':
-                $data = $contact_group->unconfirmed;
+            case 'owner':
+                $data = erp_get_people_by('id', $contact_group->owner)->email;
                 break;
 
-            case 'unsubscribed':
-                $data = $contact_group->unsubscriber;
+            case 'desc':
+                $data = $contact_group->description;
                 break;
 
             case 'created_at':
@@ -85,8 +85,8 @@ class Contact_Group_List_Table extends \WP_List_Table {
             'cb'           => '<input type="checkbox" />',
             'name'         => __( 'Name', 'erp' ),
             'subscribed'   => __( 'Subscribed', 'erp' ),
-            'unconfirmed'  => __( 'Unconfirmed', 'erp' ),
-            'unsubscribed' => __( 'Unsubscribed', 'erp' ),
+            'owner'        => __( 'Owner', 'erp' ),
+            'desc'         => __( 'Description', 'erp' ),
             'created_at'   => __( 'Created At', 'erp' )
         );
 

@@ -1088,7 +1088,7 @@ function erp_crm_save_contact_group( $data ) {
  * @return object
  */
 function erp_crm_get_contact_groups( $args = [] ) {
-
+    global $wpdb;
     $defaults  = [
         'number'  => 20,
         'offset'  => 0,
@@ -1109,69 +1109,21 @@ function erp_crm_get_contact_groups( $args = [] ) {
             return $result;
         }
 
-        $results       = [];
-        $contact_group = new WeDevs\ERP\CRM\Models\ContactGroup();
+        $gr_tbl    = $wpdb->prefix . 'erp_crm_contact_group';
+        $grsc_tbl   = $wpdb->prefix . 'erp_crm_contact_subscriber';
+        $pp_tbl   = $wpdb->prefix . 'erp_peoples';
 
-        $contact_group = $contact_group->with( 'contact_subscriber' );
+        $sql = "select {$gr_tbl}.*, count(*) as subscriber from {$gr_tbl} left join {$grsc_tbl} on {$gr_tbl}.id = {$grsc_tbl}.group_id";
 
-        // Check if want all data without any pagination
-        if ( $args['number'] != '-1' && ! $args['count'] ) {
-            $contact_group = $contact_group->skip( $args['offset'] )->take( $args['number'] );
+        if ( ! current_user_can( 'erp_crm_manager' ) ) {
+            $sql .= " left join {$pp_tbl} on $grsc_tbl.user_id = {$pp_tbl}.id where {$gr_tbl}.owner = ".get_current_user_id()." or {$pp_tbl}.contact_owner = ".get_current_user_id();
         }
 
-        // Check is the row want to search
-        if ( isset( $args['s'] ) && ! empty( $args['s'] ) ) {
-            $arg_s         = $args['s'];
-            $contact_group = $contact_group->where( 'name', 'LIKE', "%$arg_s%" )
-                                           ->orWhere( 'description', 'LIKE', "%$arg_s%" );
-        }
+        $sql .= " group by {$grsc_tbl}.group_id order by {$gr_tbl}.created_at ". $args['order'];
 
-        // Render all collection of data according to above filter (Main query)
-        $results = $contact_group->orderBy( $args['orderby'], $args['order'] )
-                                 ->get()
-                                 ->toArray();
-
-        foreach ( $results as $key => $group ) {
-
-            if ( ! current_user_can( 'erp_crm_create_groups' ) && $group['owner'] != get_current_user_id()) {
-                $contact_subscriber = $group['contact_subscriber'];
-                $agent_subscriber   = [];
-                foreach ( $contact_subscriber as $cs ) {
-                    $obj = erp_get_people( $cs['user_id'] );
-                    if ( $obj->contact_owner == get_current_user_id() ) {
-                        $agent_subscriber[] = $cs;
-                    }
-                }
-                $group['contact_subscriber'] = $agent_subscriber;
-            }
-
-            $subscribers = array_filter( $group['contact_subscriber'], function ( $subscriber ) {
-                return 'subscribe' === $subscriber['status'];
-            } );
-
-            $unconfirmed = array_filter( $group['contact_subscriber'], function ( $subscriber ) {
-                return 'unconfirmed' === $subscriber['status'];
-            } );
-
-            $unsubscribers = array_filter( $group['contact_subscriber'], function ( $subscriber ) {
-                return $subscriber['unsubscribe_at'];
-            } );
-
-            unset( $group['contact_subscriber'] );
-
-            $count_subscribers = count( $subscribers );
-            $count_unconfirmed = count( $unconfirmed );
-            $count_unsubscribers = count( $unsubscribers );
-            if (erp_crm_is_current_user_manager() ||  $group['owner'] == get_current_user_id() ||  $count_subscribers + $count_unconfirmed + $count_unsubscribers > 0) {
-                $items[ $key ]                 = $group;
-                $items[ $key ]['subscriber']   = $count_subscribers;
-                $items[ $key ]['unconfirmed']  = $count_unconfirmed;
-                $items[ $key ]['unsubscriber'] = $count_unsubscribers;
-            }
-        }
+        $items = $wpdb->get_results( $sql );
 
         $items = erp_array_to_object( $items );
-
 
         wp_cache_set( $cache_key, $items, 'erp' );
     }
@@ -1268,24 +1220,24 @@ function erp_crm_get_subscriber_contact( $args = [] ) {
                                                        ->orWhere( 'description', 'LIKE', "%$arg_s%" );
         }
 
-        // Render all collection of data according to above filter (Main query)
-        $results = $contact_subscribers
+        // Check if args count true, then return total count customer according to above filter
+        if ( $args['count'] ) {
+            $items = $contact_subscribers->count();
+        } else {
+            // Render all collection of data according to above filter (Main query)
+            $results = $contact_subscribers
             ->get()
             ->groupBy( 'user_id' )
             ->toArray();
 
-        foreach ( $results as $user_id => $value ) {
-            $converted_data[] = [
-                'user_id' => $user_id,
-                'data'    => $value
-            ];
-        }
+            foreach ( $results as $user_id => $value ) {
+                $converted_data[] = [
+                    'user_id' => $user_id,
+                    'data'    => $value
+                ];
+            }
 
-        $items = erp_array_to_object( $converted_data );
-
-        // Check if args count true, then return total count customer according to above filter
-        if ( $args['count'] ) {
-            $items = count( $items );
+            $items = erp_array_to_object( $converted_data );
         }
         /*if ( $args['count'] ) {
             if ( ! empty( $args['group_id'] ) ) {

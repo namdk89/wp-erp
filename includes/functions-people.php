@@ -65,7 +65,7 @@ function erp_get_peoples( $args = [] ) {
 
         $wrapper_select = "SELECT people.*, ";
 
-        $sql['select'][] = "GROUP_CONCAT( DISTINCT t.name SEPARATOR ',') AS types";
+        $sql['select'][] = "t.name AS types";
         $sql['join'][]   = "LEFT JOIN $type_rel_tb AS r ON people.id = r.people_id LEFT JOIN $types_tb AS t ON r.people_types_id = t.id";
         $sql_from_tb     = "FROM $pep_tb AS people";
         $sql_people_type = "where ( select count(*) from $types_tb
@@ -75,7 +75,6 @@ function erp_get_peoples( $args = [] ) {
           ) >= 1";
         $sql['where']    = [ '' ];
 
-        $sql_group_by = "GROUP BY `people`.`id`";
         $sql_order_by = "ORDER BY $orderby $order";
 
         // Check if want all data without any pagination
@@ -161,7 +160,6 @@ function erp_get_peoples( $args = [] ) {
         // Check if args count true, then return total count customer according to above filter
         if ( $count ) {
             $sql_order_by   = '';
-            $sql_group_by   = '';
             $wrapper_select = 'SELECT COUNT( DISTINCT people.id ) as total_number';
             unset( $sql['select'][0] );
         }
@@ -184,7 +182,6 @@ function erp_get_peoples( $args = [] ) {
                        . implode( ' ', $sql['where'] ) . ' '
                        . ' )'
                        . $post_where_queries
-                       . $sql_group_by . ' '
                        . $sql_order_by . ' '
                        . $sql_limit;
 

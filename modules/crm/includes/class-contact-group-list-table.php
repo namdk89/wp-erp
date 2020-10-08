@@ -53,7 +53,7 @@ class Contact_Group_List_Table extends \WP_List_Table {
                 break;
 
             case 'owner':
-                $data = erp_get_people_by('id', $contact_group->owner)->email;
+                $data = isset( $contact_group->owner ) ? erp_get_people_by('id', $contact_group->owner)->email : '';
                 break;
 
             case 'desc':

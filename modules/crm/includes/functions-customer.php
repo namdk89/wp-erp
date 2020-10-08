@@ -1113,13 +1113,13 @@ function erp_crm_get_contact_groups( $args = [] ) {
         $grsc_tbl   = $wpdb->prefix . 'erp_crm_contact_subscriber';
         $pp_tbl   = $wpdb->prefix . 'erp_peoples';
 
-        $sql = "select {$gr_tbl}.*, count(*) as subscriber from {$gr_tbl} left join {$grsc_tbl} on {$gr_tbl}.id = {$grsc_tbl}.group_id";
+        $sql = "select t1.*, t3.subscriber from {$gr_tbl} t1 left join ( select t2.group_id, count(*) as subscriber from {$grsc_tbl} t2";
 
         if ( ! current_user_can( 'erp_crm_manager' ) ) {
-            $sql .= " left join {$pp_tbl} on $grsc_tbl.user_id = {$pp_tbl}.id where {$gr_tbl}.owner = ".get_current_user_id()." or {$pp_tbl}.contact_owner = ".get_current_user_id();
+            $sql .= " where t2.group_id in (select group_id from t1 where t1.owner = ".get_current_user_id().") or t2.user_id in (select id from {$pp_tbl} where contact_ower = ".get_current_user_id().")";
         }
 
-        $sql .= " group by {$grsc_tbl}.group_id order by {$gr_tbl}.created_at ". $args['order'];
+        $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id order by t1.created_at desc";
 
         $items = $wpdb->get_results( $sql );
 

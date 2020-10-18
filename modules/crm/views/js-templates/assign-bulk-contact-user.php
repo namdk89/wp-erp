@@ -14,6 +14,7 @@
 
     <?php wp_nonce_field( 'wp-erp-crm-bulk-contact-user' ); ?>
 
+    <?php if (isset($_REQUEST['paged'])) echo '<input type="hidden" name="paged" value="'.$_REQUEST['paged'].'">';?>
     <input type="hidden" name="action" value="erp-crm-bulk-contact-user">
     <input type="hidden" name="user_id" value="{{ data.user_id }}">
 </div>

@@ -31,7 +31,9 @@ $users       = erp_crm_get_crm_user();
                         <td>'.$contact_owner->user_email.'</td>
                       </tr>';
             }
-            echo '<input type="hidden" name="filter_contact_group" value="'.$_REQUEST['filter_contact_group'].'">'
+            echo '<input type="hidden" name="filter_contact_group" value="'.$_REQUEST['filter_contact_group'].'">';
+            if (isset($_REQUEST['paged']))
+                echo '<input type="hidden" name="paged" value="'.$_REQUEST['paged'].'">';
             ?>
         </table>
 

@@ -1080,6 +1080,23 @@ function erp_crm_save_contact_group( $data ) {
 }
 
 /**
+ * Assign contact owner to group owner
+ *
+ * @param  array $data
+ *
+ * @return array
+ */
+function erp_crm_assign_contact_owner_to_group_owner( $data ) {
+    global $wpdb;
+    $grsc_tbl   = $wpdb->prefix . 'erp_crm_contact_subscriber';
+    $pp_tbl   = $wpdb->prefix . 'erp_peoples';
+
+    $sql = "update {$pp_tbl} set contact_owner = {$data['owner']} where {$pp_tbl}.id in (select user_id from {$grsc_tbl} where group_id = {$data['id']})";
+
+    $wpdb->get_results( $sql );
+}
+
+/**
  * Get all contact group
  *
  * @since 1.0

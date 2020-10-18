@@ -894,6 +894,7 @@ class Ajax_Handler {
         ];
 
         erp_crm_save_contact_group( $data );
+        erp_crm_assign_contact_owner_to_group_owner( $data );
 
         $this->send_success( __( 'Contact group save successfully', 'erp' ) );
     }

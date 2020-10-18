@@ -2594,6 +2594,7 @@ table.erp-table.full-width {
   Table style in settings area
 ----------------------------------------*/
 .vtable-wrap .vtbale-table-wrapper {
+  pointer-events: none;
   position: relative;
 }
 .vtable-wrap .vtbale-table-wrapper table.vtable {
@@ -4344,4 +4345,7 @@ div.erp-nav-container.--show-secondary .-secondary {
 /* WP data table conflict resolve ----------- */
 .wpdt-c #adminmenuback {
   z-index: 1 !important;
+}
+#contact_body {
+  pointer-events: auto;
 }

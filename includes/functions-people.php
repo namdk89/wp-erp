@@ -43,6 +43,9 @@ function erp_get_peoples( $args = [] ) {
     ];
     $args        = wp_parse_args( $args, $defaults );
 
+    if ($args['number'] > 500)
+        $args['number'] = 500;
+
     $people_type = is_array( $args['type'] ) ? implode( '-', $args['type'] ) : $args['type'];
     $cache_key   = 'erp-people-' . $people_type . '-' . md5( serialize( $args ) );
     $items       = wp_cache_get( $cache_key, 'erp' );

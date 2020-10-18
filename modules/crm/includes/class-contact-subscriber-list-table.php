@@ -43,24 +43,59 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
      */
     function extra_tablenav( $which ) {
         if ( $which != 'top' ) {
-            return;
+            $page_sizes = ["20" => "20", "50" => "50", "100" => "100"];
+            $selected_size  = ( isset( $_GET['page_size'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page_size'] ) ) : 20;
+            ?>
+                <div>
+                    <label class="displaying-num"> <?php esc_html_e( 'Page size', 'erp' ) ?></label>
+                    <select name="page_size" id="page-size" onchange="onChange(this.options[this.selectedIndex].value)">
+                        <?php foreach ( $page_sizes as $key => $pagesize ) : ?>
+                            <option value="<?php echo $key; ?>" <?php selected( $selected_size, $key ); ?>><?php echo wp_kses_post( $pagesize ); ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <script>
+                    function onChange(pageSize) {
+                        var searchParams = new URLSearchParams(window.location.search);
+                        searchParams.set("page_size", pageSize);    
+                        window.location.search = searchParams.toString();
+                    }
+                </script>
+            <?php
+        } else {
+            $groups          = erp_crm_get_contact_group_dropdown();
+            $selected_group  = ( isset( $_GET['filter_contact_group'] ) ) ? sanitize_text_field( wp_unslash( $_GET['filter_contact_group'] ) ) : 0;
+            ?>
+                <div class="alignleft actions">
+
+                    <label class="screen-reader-text" for="new_role"><?php esc_html_e( 'Filter by Group', 'erp' ) ?></label>
+                    <select name="filter_contact_group" id="filter_contact_group">
+                        <?php foreach ( $groups as $key => $group ) : ?>
+                            <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected_group, $key ); ?>><?php echo wp_kses_post( $group ); ?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <?php submit_button( esc_html__( 'Filter', 'erp' ), 'button', 'filter_group', false ); ?>
+                </div>
+            <?php
         }
-
-        $groups          = erp_crm_get_contact_group_dropdown();
-        $selected_group  = ( isset( $_GET['filter_contact_group'] ) ) ? sanitize_text_field( wp_unslash( $_GET['filter_contact_group'] ) ) : 0;
-        ?>
-            <div class="alignleft actions">
-
-                <label class="screen-reader-text" for="new_role"><?php esc_html_e( 'Filter by Group', 'erp' ) ?></label>
-                <select name="filter_contact_group" id="filter_contact_group">
-                    <?php foreach ( $groups as $key => $group ) : ?>
-                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected_group, $key ); ?>><?php echo wp_kses_post( $group ); ?></option>
-                    <?php endforeach ?>
-                </select>
-                <?php submit_button( esc_html__( 'Filter', 'erp' ), 'button', 'filter_group', false ); ?>
-            </div>
-        <?php
     }
+
+    /**
+	 * Get the current page size
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return int
+	 */
+	public function get_pagesize() {
+		$pagesize = isset( $_REQUEST['page_size'] ) ? absint( $_REQUEST['page_size'] ) : 20;
+
+		if ( isset( $this->_pagination_args['per_page'] ) && $pagesize > $this->_pagination_args['per_page'] ) {
+			$pagesize = $this->_pagination_args['per_page'];
+		}
+
+		return min( 500, $pagesize );
+	}
 
     /**
      * Message to show if no contacts found
@@ -278,7 +313,7 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
         $sortable              = $this->get_sortable_columns();
         $this->_column_headers = [ $columns, $hidden, $sortable ];
 
-        $per_page              = 20;
+        $per_page              = $this->get_pagesize();
         $current_page          = $this->get_pagenum();
         $offset                = ( $current_page -1 ) * $per_page;
         $this->page_status     = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : 'all';

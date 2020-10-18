@@ -44,25 +44,25 @@ Vue.component('vtable', {
                         +'<div class="tablenav-pages" :class="{ \'one-page\': hidePagination }">'
                             +'<span v-if="totalItem" class="displaying-num">{{ totalItem }} {{ totalItem | pluralize \'item\' }}</span>'
                             +'<span class="pagination-links">'
-                                +'<span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>'
-                                +'<a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a>'
+                                +'<span v-if="isFirstPage()" class="tablenav-pages-navspan button disabled" aria-hidden="true">«</span> '
+                                +'<a v-else class="first-page button" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a> '
 
-                                +'<span v-if="currentPage == 1"class="tablenav-pages-navspan" aria-hidden="true">‹</span>'
-                                +'<a v-else class="prev-page" href="#" @click.prevent="goToPage(\'prev\')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>'
+                                +'<span v-if="currentPage == 1"class="tablenav-pages-navspan button disabled" aria-hidden="true">‹</span> '
+                                +'<a v-else class="prev-page button" href="#" @click.prevent="goToPage(\'prev\')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a> '
 
-                                +'<span class="screen-reader-text">Current Page</span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>'
+                                +'<span class="screen-reader-text">Current Page</span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="4" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span> '
 
-                                +'<span v-if="currentPage == totalPage"class="tablenav-pages-navspan" aria-hidden="true">›</span>'
-                                +'<a v-else class="next-page" href="#" @click.prevent="goToPage(\'next\')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>'
+                                +'<span v-if="currentPage == totalPage"class="tablenav-pages-navspan button disabled" aria-hidden="true">›</span> '
+                                +'<a v-else class="next-page button" href="#" @click.prevent="goToPage(\'next\')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a> '
 
-                                +'<span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>'
-                                +'<a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a>'
+                                +'<span v-if="isLastPage()" class="tablenav-pages-navspan button disabled" aria-hidden="true">»</span> '
+                                +'<a v-else class="last-page button" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a> '
                             +'</span>'
                         +'</div>'
                         +'<br class="clear">'
                     +'</div>'
                     +'<div class="vtbale-table-wrapper">'
-                        +'<table class="vtable wp-list-table widefat fixed striped {{ tableClass }}">'
+                        +'<table id="contact_body" class="vtable wp-list-table widefat fixed striped {{ tableClass }}">'
                             +'<thead>'
                                 +'<tr>'
                                     +'<td v-if="\'hide\' !== hideCb" id="cb" class="manage-column column-cb check-column">'
@@ -186,22 +186,31 @@ Vue.component('vtable', {
                             +'<input type="submit" id="doaction2" @click.prevent="handleBulkAction( bulkaction2 )" class="button action" :value="applyText">'
                         +'</div>'
 
+                        +'<div>'
+                            +'<label class="displaying-num">Page size</label>'
+                            +'<select name="action3" id="page-size" @change="fetchData()" v-model="perPage">'
+                                +'<option selected="selected" value="20">20</option>'
+                                +'<option value="50">50</option>'
+                                +'<option value="100">100</option>'
+                            +'</select>'
+                        +'</div>'
+
                         +'<div class="tablenav-pages" :class="{ \'one-page\': hidePagination }">'
                             +'<span v-if="totalItem" class="displaying-num">{{ totalItem }} {{ totalItem | pluralize \'item\' }}</span>'
                             +'<span class="pagination-links">'
-                                +'<span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>'
-                                +'<a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a>'
+                                +'<span v-if="isFirstPage()" class="tablenav-pages-navspan button disabled" aria-hidden="true">«</span> '
+                                +'<a v-else class="first-page button" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a> '
 
-                                +'<span v-if="currentPage == 1"class="tablenav-pages-navspan" aria-hidden="true">‹</span>'
-                                +'<a v-else class="prev-page" href="#" @click.prevent="goToPage(\'prev\')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>'
+                                +'<span v-if="currentPage == 1"class="tablenav-pages-navspan button disabled" aria-hidden="true">‹</span> '
+                                +'<a v-else class="prev-page button" href="#" @click.prevent="goToPage(\'prev\')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a> '
 
-                                +'<span class="screen-reader-text">Current Page</span><span id="table-paging" class="paging-input">{{ currentPage }} of <span class="total-pages">{{ totalPage }}</span></span>'
+                                +'<span class="screen-reader-text">Current Page</span><span id="table-paging" class="paging-input">{{ currentPage }} of <span class="total-pages">{{ totalPage }}</span></span> '
 
-                                +'<span v-if="currentPage == totalPage"class="tablenav-pages-navspan" aria-hidden="true">›</span>'
-                                +'<a v-else class="next-page" href="#" @click.prevent="goToPage(\'next\')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>'
+                                +'<span v-if="currentPage == totalPage"class="tablenav-pages-navspan button disabled" aria-hidden="true">›</span> '
+                                +'<a v-else class="next-page button" href="#" @click.prevent="goToPage(\'next\')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a> '
 
-                                +'<span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>'
-                                +'<a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a>'
+                                +'<span v-if="isLastPage()" class="tablenav-pages-navspan button disabled" aria-hidden="true">»</span> '
+                                +'<a v-else class="last-page button" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a> '
                             +'</span>'
                         +'</div>'
                         +'<br class="clear">'
@@ -381,6 +390,7 @@ Vue.component('vtable', {
             lastPage: 0,
             currentPage: 1,
             pageOffset:0,
+            perPage:20,
             pageNumberInput:1,
             hidePagination : false,
             ajax: {

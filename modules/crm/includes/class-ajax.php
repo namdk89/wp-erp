@@ -512,6 +512,8 @@ class Ajax_Handler {
 
                 erp_crm_create_new_contact_subscriber( $contact_subscriber );
             }
+            if (isset( $_POST['contact_owner'] ) && $_POST['contact_owner'] != '')
+                erp_crm_update_contact_owner($user_id, $_POST['contact_owner'], 'id');
         }
 
         $this->send_success( __( 'Selected contact are successfully subscribed', 'erp' ) );
@@ -894,7 +896,7 @@ class Ajax_Handler {
         ];
 
         erp_crm_save_contact_group( $data );
-        erp_crm_assign_contact_owner_to_group_owner( $data );
+        erp_crm_assign_contact_owner_to_group_owner( $data['id'], $data['owner'], isset( $_POST['contact_owner'] ) ? $_POST['contact_owner'] : null );
 
         $this->send_success( __( 'Contact group save successfully', 'erp' ) );
     }

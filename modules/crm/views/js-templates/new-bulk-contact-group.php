@@ -11,6 +11,17 @@
         ) ); ?>
     </div>
 
+    <div class="row" id="erp-crm-contact-owner-select">
+        <?php erp_html_form_input( array(
+            'label'       => __( 'Contact Owner', 'erp' ),
+            'name'        => 'contact_owner',
+            'type'        => 'select',
+            'id'          => 'erp-crm-contact-group-id',
+            'class'       => 'erp-crm-contact-group-class',
+            'options'     => erp_crm_get_crm_leader_dropdown([ '' => '--Select--' ])
+        ) ); ?>
+    </div>
+
     <?php wp_nonce_field( 'wp-erp-crm-bulk-contact-subscriber' ); ?>
 
     <input type="hidden" name="action" value="erp-crm-bulk-contact-subscriber">

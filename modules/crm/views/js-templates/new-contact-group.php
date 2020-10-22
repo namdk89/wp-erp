@@ -24,6 +24,19 @@
 
     <div class="row">
         <?php erp_html_form_input( array(
+            'label'       => __( 'Contact owner', 'erp' ),
+            'name'        => 'contact_owner',
+            'required'    => false,
+            'type'        => 'multicheckbox',
+            'id'          => 'erp-crm-contact-owner-is-group-owner',
+            'options'     => [
+                '1' => __( ' is group owner', 'erp' )
+            ]
+        ) ); ?>
+    </div>
+
+    <div class="row">
+        <?php erp_html_form_input( array(
             'label'       => __( 'Description', 'erp' ),
             'name'        => 'group_description',
             'type'        => 'textarea',

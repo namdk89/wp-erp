@@ -545,6 +545,10 @@ class Ajax_Handler {
             $this->send_error( __( 'You have to select crm user to assign', 'erp' ) );
         }
 
+        if ( ! ( current_user_can( erp_crm_get_manager_role() ) || current_user_can( erp_crm_get_leader_role() ) ) ) {
+            $this->send_error( __( 'You do not have sufficient permissions to do this action', 'erp' ) );
+        }
+
         // Check permission for trashing and permanent deleting contact;
         foreach ( $user_ids as $contact_id ) {
             if ( ! current_user_can( 'erp_crm_edit_contact', $contact_id ) ) {

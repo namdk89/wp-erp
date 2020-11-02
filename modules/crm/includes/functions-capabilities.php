@@ -320,12 +320,25 @@ function erp_crm_map_meta_caps( $caps = array(), $cap = '', $user_id = 0, $args 
             $crm_agent_role   = erp_crm_get_agent_role();
 
             if ( ! user_can( $user_id, $crm_manager_role ) && (user_can( $user_id, $crm_agent_role ) || user_can( $user_id, $crm_leader_role )) ) {
-                $contact_user_id = \WeDevs\ERP\Framework\Models\People::select('user_id')->where( 'id', $contact_id )->first();
+                $result = \WeDevs\ERP\Framework\Models\People::select('contact_owner')->where( 'id', $contact_id )->first();
 
-                if ( isset( $contact_user_id->user_id ) && $contact_user_id->user_id ) {
-                    $assign_id = get_user_meta( $contact_user_id->user_id, 'contact_owner', true );
+                if ( isset( $result->contact_owner ) && $result->contact_owner ) {
+                    $assign_id = $result->contact_owner;
                 } else {
                     $assign_id = erp_people_get_meta( $contact_id, 'contact_owner', true );
+                }
+
+                if ( !isset( $assign_id ) || $assign_id != $user_id) {
+                    global $wpdb;
+                    $contact_group_tb     = $wpdb->prefix . 'erp_crm_contact_group';
+                    $contact_subscribe_tb = $wpdb->prefix . 'erp_crm_contact_subscriber';
+                    $result = WeDevs\ERP\CRM\Models\ContactSubscriber::leftjoin( $contact_group_tb, $contact_group_tb . '.id', '=', $contact_subscribe_tb . '.group_id' )
+                        ->where( $contact_group_tb . '.owner', '=', $user_id )
+                        ->where( $contact_subscribe_tb . '.user_id', '=', $contact_id )->first();
+                    
+                    if ( isset( $result->owner ) && $result->owner ) {
+                        $assign_id = $result->owner;
+                    }
                 }
 
                 if ( $assign_id != $user_id ) {

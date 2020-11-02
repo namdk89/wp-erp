@@ -1122,7 +1122,8 @@ function erp_crm_get_contact_groups( $args = [] ) {
     if ( false === $items ) {
         // Check if args count true, then return total count customer according to above filter
         if ( $args['count'] ) {
-            $result = WeDevs\ERP\CRM\Models\ContactGroup::count();
+            $contact_group = new WeDevs\ERP\CRM\Models\ContactGroup();
+            $result = $contact_group->where('owner', '=', get_current_user_id())->count();
             wp_cache_set( $cache_key, $result, 'erp' );
 
             return $result;
@@ -1135,10 +1136,10 @@ function erp_crm_get_contact_groups( $args = [] ) {
         $sql = "select t1.*, t3.subscriber from {$gr_tbl} t1 left join ( select t2.group_id, count(*) as subscriber from {$grsc_tbl} t2";
 
         if ( ! current_user_can( 'erp_crm_manager' ) ) {
-            $sql .= " where t2.group_id in (select group_id from t1 where t1.owner = ".get_current_user_id().") or t2.user_id in (select id from {$pp_tbl} where contact_ower = ".get_current_user_id().")";
+            $sql .= " where t2.group_id in (select group_id from {$gr_tbl} t1 where t1.owner = ".get_current_user_id().") or t2.user_id in (select id from {$pp_tbl} where contact_owner = ".get_current_user_id().")";
         }
 
-        $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id order by t1.created_at desc";
+        $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id where owner = ".get_current_user_id()." order by t1.created_at desc";
 
         $items = $wpdb->get_results( $sql );
 
@@ -1215,9 +1216,13 @@ function erp_crm_get_subscriber_contact( $args = [] ) {
         $contact_subscribers = WeDevs\ERP\CRM\Models\ContactSubscriber::leftjoin( $contact_group_tb, $contact_group_tb . '.id', '=', $contact_subscribe_tb . '.group_id' );
 
 //        $contact_subscribers = $contact_subscribers::leftjoin('')
-        if( !erp_crm_is_current_user_manager() && !erp_crm_is_current_user_leader() ) {
+        if( !erp_crm_is_current_user_manager() ) {
             $erp_peoples         = $wpdb->prefix . 'erp_peoples';
-            $contact_subscribers = $contact_subscribers->leftJoin( $erp_peoples, $erp_peoples . '.id', '=', $contact_subscribe_tb . '.user_id' )->addSelect( $contact_subscribe_tb . '.*', $contact_group_tb . '.*', $erp_peoples . '.contact_owner' )->where( $erp_peoples . '.contact_owner', '=', get_current_user_id() );
+            if ( !erp_crm_is_current_user_leader() )
+                $contact_subscribers = $contact_subscribers->leftJoin( $erp_peoples, $erp_peoples . '.id', '=', $contact_subscribe_tb . '.user_id' )->addSelect( $contact_subscribe_tb . '.*', $contact_group_tb . '.*', $erp_peoples . '.contact_owner' )->where( $erp_peoples . '.contact_owner', '=', get_current_user_id() );
+            else {
+                $contact_subscribers = $contact_subscribers->where( $contact_group_tb . '.owner', '=', get_current_user_id() );
+            }
         }
 
         // Check if want all data without any pagination
@@ -1228,7 +1233,7 @@ function erp_crm_get_subscriber_contact( $args = [] ) {
         if ( isset( $args['group_id'] ) && ! empty( $args['group_id'] ) ) {
             $contact_subscribers = $contact_subscribers->where( $contact_group_tb . '.id', '=', $args['group_id'] );
             if (!erp_crm_is_current_user_manager()) {
-                $contact_subscribers = $contact_subscribers->orWhere( $contact_group_tb . '.owner', '=', get_current_user_id());
+                $contact_subscribers = $contact_subscribers->where( $contact_group_tb . '.owner', '=', get_current_user_id());
             }
         }
 

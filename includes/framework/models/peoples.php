@@ -8,7 +8,7 @@ class People extends Model {
     protected $primaryKey = 'id';
     protected $table      = 'erp_peoples';
     public $timestamps    = false;
-    protected $fillable   = [ 'user_id', 'first_name', 'last_name', 'company', 'email', 'mobile',
+    protected $fillable   = [ 'user_id', 'first_name', 'last_name', 'company', 'email', 'phone', 'mobile',
             'other', 'website', 'fax', 'notes', 'street_1', 'street_2', 'city', 'state', 'postal_code', 'country',
             'currency', 'life_stage', 'hash', 'contact_owner', 'created_by', 'created' ];
 

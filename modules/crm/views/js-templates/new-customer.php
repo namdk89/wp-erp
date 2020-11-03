@@ -95,6 +95,7 @@
                                 ) ); ?>
                             </div>
 
+                            <# if ( data.phone ) { #>
                             <div class="col-3">
                                 <?php erp_html_form_input( array(
                                     'label' => __( 'Phone Number', 'erp' ),
@@ -102,9 +103,21 @@
                                     'value' => '{{ data.phone }}',
                                     'id'    => 'erp-crm-new-contact-phone',
                                     'required' => true,
-                                    'readonly' => true
+                                    'readonly' => !current_user_can( 'erp_crm_manager' )
                                 ) ); ?>
                             </div>
+                            <# } else { #>
+                            <div class="col-3">
+                                <?php erp_html_form_input( array(
+                                    'label' => __( 'Phone Number', 'erp' ),
+                                    'name'  => 'contact[main][phone]',
+                                    'value' => '{{ data.phone }}',
+                                    'id'    => 'erp-crm-new-contact-phone',
+                                    'required' => true,
+                                    'readonly' => false
+                                ) ); ?>
+                            </div>
+                            <# } #>
 
                             <div class="col-3" data-selected="{{ data.life_stage }}">
                                 <?php erp_html_form_input( array(

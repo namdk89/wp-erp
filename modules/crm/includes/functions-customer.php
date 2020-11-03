@@ -1137,9 +1137,10 @@ function erp_crm_get_contact_groups( $args = [] ) {
 
         if ( ! current_user_can( 'erp_crm_manager' ) ) {
             $sql .= " where t2.group_id in (select group_id from {$gr_tbl} t1 where t1.owner = ".get_current_user_id().") or t2.user_id in (select id from {$pp_tbl} where contact_owner = ".get_current_user_id().")";
+            $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id where owner = ".get_current_user_id()." order by t1.created_at desc";
         }
-
-        $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id where owner = ".get_current_user_id()." order by t1.created_at desc";
+        else
+            $sql .= " group by t2.group_id) t3 on t1.id = t3.group_id order by t1.created_at desc";
 
         $items = $wpdb->get_results( $sql );
 

@@ -101,7 +101,8 @@
                                     'name'  => 'contact[main][phone]',
                                     'value' => '{{ data.phone }}',
                                     'id'    => 'erp-crm-new-contact-phone',
-                                    'required' => true
+                                    'required' => true,
+                                    'readonly' => true
                                 ) ); ?>
                             </div>
 

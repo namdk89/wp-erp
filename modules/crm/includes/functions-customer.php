@@ -189,28 +189,78 @@ function erp_crm_get_details_url( $id, $type ) {
  */
 function erp_crm_get_life_stages_dropdown_raw( $label = [], $counts = [] ) {
 
-    $counts = wp_parse_args( $counts, [
-        'l0' => 1,
-        'l1' => 1,
-        'l2' => 1,
-        'l3' => 1,
-        'l4' => 1,
-        'l5' => 1,
-        'l6' => 1,
-        'l7' => 1,
-        'l8' => 1
-    ] );
-
     $life_stages = [
-        'l0'    => _n( 'L0', 'L0', $counts['l0'], 'erp' ),
-        'l1'    => _n( 'L1', 'L1', $counts['l1'], 'erp' ),
-        'l2'    => _n( 'L2', 'L2', $counts['l2'], 'erp' ),
-        'l3'    => _n( 'L3', 'L3', $counts['l3'], 'erp' ),
-        'l4'    => _n( 'L4', 'L4', $counts['l4'], 'erp' ),
-        'l5'    => _n( 'L5', 'L5', $counts['l5'], 'erp' ),
-        'l6'    => _n( 'L6', 'L6', $counts['l6'], 'erp' ),
-        'l7'    => _n( 'L7', 'L7', $counts['l7'], 'erp' ),
-        'l8'    => _n( 'L8', 'L8', $counts['l8'], 'erp' )
+        'l00'    => 'L0',
+        'l11'    => 'L1.1',
+        'l12'    => 'L1.2',
+        'l13'    => 'L1.3',
+        'l14'    => 'L1.4',
+        'l15'    => 'L1.5',
+        'l21'    => 'L2.1',
+        'l22'    => 'L2.2',
+        'l23'    => 'L2.3',
+        'l24'    => 'L2.4',
+        'l31'    => 'L3.1',
+        'l32'    => 'L3.2',
+        'l33'    => 'L3.3',
+        'l34'    => 'L3.4',
+        'l35'    => 'L3.5',
+        'l41'    => 'L4.1',
+        'l42'    => 'L4.2',
+        'l43'    => 'L4.3',
+        'l50'    => 'L5',
+        'l61'    => 'L6.1',
+        'l62'    => 'L6.2',
+        'l63'    => 'L6.3',
+        'l70'    => 'L7',
+        'l80'    => 'L8'
+    ];
+
+    $life_stages = apply_filters( 'erp_crm_life_stages', $life_stages );
+
+    if ( $label ) {
+        $life_stages = $label + $life_stages;
+    }
+
+    return $life_stages;
+}
+
+/**
+ * Get CRM life statges
+ *
+ * @since 1.0
+ * @since 1.1.16 Append extra `label` after the filter applied
+ *
+ * @param array $label
+ *
+ * @return array
+ */
+function erp_crm_get_life_stages_dropdown_full( $label = [], $counts = [] ) {
+    $life_stages = [
+        'l00'    => __( 'L0 - Mới thêm', 'erp' ),
+        'l11'    => __( 'L1.1 - Bận gọi lại sau', 'erp' ),
+        'l12'    => __( 'L1.2 - Không liên lạc được', 'erp' ),
+        'l13'    => __( 'L1.3 - Chưa gọi', 'erp' ),
+        'l14'    => __( 'L1.4 - Không đúng đối tượng', 'erp' ),
+        'l15'    => __( 'L1.5 - Sai số', 'erp' ),
+        'l21'    => __( 'L2.1 - Đúng đối tượng, liên lạc được', 'erp' ),
+        'l22'    => __( 'L2.2 - Đúng đối tượng, liên lạc đc, nhưng chưa có nhu cầu tại thời điểm hiện tại', 'erp' ),
+        'l23'    => __( 'L2.3 - Quan tâm nhưng cần thời gian tham khảo thêm', 'erp' ),
+        'l24'    => __( 'L2.4 - Không quan tâm từ chối tiếp nhận thông tin', 'erp' ),
+        'l31'    => __( 'L3.1 - Đồng ý test', 'erp' ),
+        'l32'    => __( 'L3.2 - Quan tâm và có lịch hẹn cụ thể trực tiếp tại VP', 'erp' ),
+        'l33'    => __( 'L3.3 - Quan tâm và có lịch hẹn nhưng không cụ thể', 'erp' ),
+        'l34'    => __( 'L3.4 - Quan tâm và  không  có lịch hẹn cụ thể trực tiếp tại văn phòng', 'erp' ),
+        'l35'    => __( 'L3.5 - Có hẹn nhưng không đến hoặc chưa làm test', 'erp' ),
+        'l41'    => __( 'L4.1 - Contact biết đầy đủ thông tin', 'erp' ),
+        'l42'    => __( 'L4.2 - Contact đã lên văn phòng', 'erp' ),
+        'l43'    => __( 'L4.3 - Contact đã hoàn thiện bài test', 'erp' ),
+        'l50'    => __( 'L5 - Contact đã hoàn thành học thử', 'erp' ),
+        'l61'    => __( 'L6.1 - Đồng ý nhận lộ trình từ cơ bản nhất', 'erp' ),
+        'l62'    => __( 'L6.2 - Đã nhận lộ trình học tập', 'erp' ),
+        'l63'    => __( 'L6.3 - Có hẹn chuyển khoản', 'erp' ),
+        'l70'    => __( 'L7 - Đã đóng một phần học phí Không nhấc máy', 'erp' ),
+        'l80'    => __( 'L8 - Đã nhập học', 'erp' )
     ];
 
     $life_stages = apply_filters( 'erp_crm_life_stages', $life_stages );

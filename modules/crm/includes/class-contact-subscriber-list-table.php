@@ -142,7 +142,7 @@ class Contact_Subscriber_List_Table extends \WP_List_Table {
 
             case 'life_stage':
 
-                return strtoupper($contact->get_life_stage());
+                return erp_crm_get_life_stages_dropdown_raw()[$contact->get_life_stage()];
 
             case 'created_at':
 

@@ -126,7 +126,7 @@
                                     'required' => true,
                                     'type'  => 'select',
                                     'class' => 'erp-select2',
-                                    'options' => erp_crm_get_life_stages_dropdown_raw( [ '' => __( '--Select Stage--', 'erp' ) ] )
+                                    'options' => erp_crm_get_life_stages_dropdown_full( [ '' => __( '--Select Stage--', 'erp' ) ] )
                                 ) ); ?>
                             </div>
 

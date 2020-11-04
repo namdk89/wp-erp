@@ -35,7 +35,8 @@ $reports      = erp_crm_customer_reporting_query( $start, $end, $filter_type );
         <tbody>
             <?php if ( $filter_type === 'life_stage' ) :
                 foreach ( $reports as $report ) {
-                    $data[$report->life_stage] = $report->total;
+                    $level = substr($report->life_stage, 0, 2);
+                    $data[$level] += $report->total;
                 }
             ?>
             <tr>

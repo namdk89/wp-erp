@@ -38,19 +38,29 @@ $reports      = erp_crm_growth_reporting_query( $start, $end, $filter_type );
         </thead>
 
         <tbody>
-            <?php foreach( $reports as $key => $report ) : ?>
+            <?php foreach( $reports as $key => $report ) : 
+                $data['l0'] = $report['l00'];
+                $data['l1'] = $report['l11'] + $report['l12'] + $report['l13'] + $report['l14'] + $report['l15'];
+                $data['l2'] = $report['l21'] + $report['l22'] + $report['l23'] + $report['l24'];
+                $data['l3'] = $report['l31'] + $report['l32'] + $report['l33'] + $report['l34'] + $report['l35'];
+                $data['l4'] = $report['l41'] + $report['l42'] + $report['l43'];
+                $data['l5'] = $report['l50'];
+                $data['l6'] = $report['l61'] + $report['l62'] + $report['l63'];
+                $data['l7'] = $report['l70'];
+                $data['l8'] = $report['l80'];
+            ?>
 
                 <tr>
                     <td><?php echo esc_html( $key ) ?></td>
-                    <td><?php echo !empty( $report['l0'] ) ? esc_attr( $report['l0'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l1'] ) ? esc_attr( $report['l1'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l2'] ) ? esc_attr( $report['l2'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l3'] ) ? esc_attr( $report['l3'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l4'] ) ? esc_attr( $report['l4'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l5'] ) ? esc_attr( $report['l5'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l6'] ) ? esc_attr( $report['l6'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l7'] ) ? esc_attr( $report['l7'] ) : 0; ?></td>
-                    <td><?php echo !empty( $report['l8'] ) ? esc_attr( $report['l8'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l0'] ) ? esc_attr( $data['l0'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l1'] ) ? esc_attr( $data['l1'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l2'] ) ? esc_attr( $data['l2'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l3'] ) ? esc_attr( $data['l3'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l4'] ) ? esc_attr( $data['l4'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l5'] ) ? esc_attr( $data['l5'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l6'] ) ? esc_attr( $data['l6'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l7'] ) ? esc_attr( $data['l7'] ) : 0; ?></td>
+                    <td><?php echo !empty( $data['l8'] ) ? esc_attr( $data['l8'] ) : 0; ?></td>
                 </tr>
 
             <?php endforeach; ?>

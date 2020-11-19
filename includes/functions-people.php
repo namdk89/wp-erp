@@ -453,6 +453,10 @@ function erp_insert_people( $args = array(), $return_object = false ) {
 
     $existing_people = \WeDevs\ERP\Framework\Models\People::firstOrNew( [ 'id' => $args['id'] ] );
 
+    if ( $existing_people->id) {
+        erp_log()->add_log_change_contact_owner($existing_people->id, $existing_people->contact_owner, $args['contact_owner']);
+    }
+
     $defaults = array(
         'id'            => $existing_people->id,
         'first_name'    => $existing_people->first_name,

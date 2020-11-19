@@ -831,6 +831,26 @@ function erp_crm_get_feed_activity( $postdata ) {
 }
 
 /**
+ * Get lastest note
+ *
+ *
+ * @param  integer $customer_id
+ *
+ * @return array
+ */
+function erp_crm_get_lastest_note_feed_activity( $user_id ) {
+    global $wpdb;
+    $activity_tbl   = $wpdb->prefix . 'erp_crm_customer_activities';
+
+    $sql = "SELECT a.message FROM {$activity_tbl} a INNER JOIN ( SELECT user_id, MAX(id) id FROM {$activity_tbl} group by user_id ) b ON a.id = b.id AND a.user_id = '{$user_id}'";
+
+    $result = $wpdb->get_results( $sql );
+    if (isset($result) && !empty($result))
+        return $result[0]->message;
+    return "";
+}
+
+/**
  * Save customer activity feeds
  *
  * @since 1.0
@@ -3941,11 +3961,13 @@ function erp_crm_update_contact_owner_and_life_stage( $contact_id, $owner_id, $l
         return new \WP_Error( 'no-erp-people', __( 'People not exists', 'erp' ) );
     }
 
-    if ( !empty( $owner_id ) && !empty( $life_stage ) )
+    if ( !empty( $owner_id ) && !empty( $life_stage ) ) {
+        erp_log()->add_log_change_contact_owner($people->id, $people->contact_owner, $owner_id);
         \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['life_stage' => $life_stage, 'contact_owner' => $owner_id]);
-    else if ( !empty( $owner_id ) )
+    } else if ( !empty( $owner_id ) ) {
+        erp_log()->add_log_change_contact_owner($people->id, $people->contact_owner, $owner_id);
         \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['contact_owner' => $owner_id]);
-    else
+    } else
         \WeDevs\ERP\CRM\Models\Contact::where( 'id', $people->id )->update(['life_stage' => $life_stage]);
 }
 

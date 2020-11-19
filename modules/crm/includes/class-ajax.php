@@ -214,6 +214,7 @@ class Ajax_Handler {
             $contacts['data'][$key]['life_stage']    = $contact['life_stage'];
             $contacts['data'][$key]['assign_to']     = $contact_owner;
             $contacts['data'][$key]['created']       = erp_format_date( $contact['created'] );
+            $contacts['data'][$key]['lastest_note']  = strip_tags(erp_crm_get_lastest_note_feed_activity( $contact['id'] ));
         }
 
         $contacts['total_items']   = $total_items;

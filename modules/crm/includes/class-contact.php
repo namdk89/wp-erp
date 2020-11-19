@@ -442,6 +442,7 @@ class Contact extends \WeDevs\ERP\People {
      * @param $contact_owner
      */
     public function update_contact_owner($contact_owner){
+        erp_log()->add_log_change_contact_owner($this->id, $this->get_contact_owner(), $contact_owner);
         $this->update_property('contact_owner', $contact_owner);
     }
 

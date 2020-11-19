@@ -1239,7 +1239,7 @@
                 },
 
                 lifeStage: function( value, item ) {
-                    return wpErpCrm.life_stages[value];
+                    return '<span title="' + wpErpCrm.life_stages_full[value] + '">' + wpErpCrm.life_stages[value] + '</span>';
                 },
 
                 contact_view_link: function( action, item ) {
@@ -1248,7 +1248,7 @@
                 },
 
                 contactOwner: function( value, item ) {
-                    return ( Object.keys( item.assign_to ).length > 0 ) ? '<a>' + item.assign_to.display_name + '</a>' : '—';
+                    return ( Object.keys( item.assign_to ).length > 0 ) ? '<a title="'+ item.lastest_note +'">' + item.assign_to.display_name + '</a>' : '—';
                 },
 
                 checkPermission: function( item ) {

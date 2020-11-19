@@ -254,6 +254,7 @@ class Customer_Relationship {
                 $localize_script['statuses']          = erp_crm_customer_get_status_count( 'contact' );
                 $localize_script['contact_type']      = 'contact';
                 $localize_script['life_stages']       = erp_crm_get_life_stages_dropdown_raw();
+                $localize_script['life_stages_full']  = erp_crm_get_life_stages_dropdown_full();
                 $localize_script['searchFields']      = erp_crm_get_serach_key( 'contact' );
                 $localize_script['saveAdvanceSearch'] = erp_crm_get_save_search_item( [ 'type' => 'contact' ] );
                 $localize_script['isAdmin']           = current_user_can( 'manage_options' );
@@ -273,6 +274,7 @@ class Customer_Relationship {
                 $localize_script['statuses']          = erp_crm_customer_get_status_count( 'company' );
                 $localize_script['contact_type']      = 'company';
                 $localize_script['life_stages']       = erp_crm_get_life_stages_dropdown_raw();
+                $localize_script['life_stages_full']  = erp_crm_get_life_stages_dropdown_full();
                 $localize_script['searchFields']      = erp_crm_get_serach_key( 'company' );
                 $localize_script['saveAdvanceSearch'] = erp_crm_get_save_search_item( [ 'type' => 'company' ] );
                 $localize_script['isAdmin']           = current_user_can( 'manage_options' );

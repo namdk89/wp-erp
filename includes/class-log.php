@@ -125,6 +125,25 @@ class Log {
 	    return $results;
 	}
 
+	public function add_log_change_contact_owner($contact, $old_owner, $new_owner) {
+		if ($old_owner == $new_owner)
+			return;
+		$contact_name = erp_get_people($contact)->email;
+		$old_owner_name = get_user_by('id', $old_owner)->display_name;
+		$new_owner_name = get_user_by('id', $new_owner)->display_name;
+		$this->insert_log(
+            [
+				'component'     => 'CRM',
+				'sub_component' => __( 'Customer', 'erp' ),
+				'old_value'     => '',
+                'new_value'     => '',
+				'message'       => sprintf( __( '%1$s\'s owner has been transferred from %2$s to %3$s', 'erp' ), $contact_name, $old_owner_name, $new_owner_name ),
+				'changetype'    => 'edit',
+				'created_by'    => get_current_user_id(),
+			]
+        );
+	}
+
 	/**
 	 * Insert a new log record
 	 *
